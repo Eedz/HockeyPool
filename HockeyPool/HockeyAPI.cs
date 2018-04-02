@@ -30,7 +30,7 @@ namespace HockeyPool
             try
             {
 
-                HttpResponseMessage response = await client.GetAsync("teams");
+                HttpResponseMessage response = await client.GetAsync("teams").ConfigureAwait(false);
                 if (response.IsSuccessStatusCode)
                 {
                     product = await response.Content.ReadAsAsync<Product>();

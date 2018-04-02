@@ -19,25 +19,27 @@ namespace HockeyPool
 
         
 
-        private void HockeyPoolMenu_Load(object sender, EventArgs e)
+        private async void HockeyPoolMenu_Load(object sender, EventArgs e)
         {
             
-            this.peopleTableAdapter.Fill(this.hockeyDataDataSet.People);
+            //this.peopleTableAdapter.Fill(this.hockeyDataDataSet.People);
 
             
             Product p;
-            p = LoadTeams().GetAwaiter().GetResult();
+            
+            //p = LoadTeams().GetAwaiter().GetResult();
+            p = await LoadTeams();
             if (p == null) {
                 MessageBox.Show("Could not get team info.");
             }
-            Console.WriteLine("Copyright notice: " + p.copyright);
+            MessageBox.Show("Copyright notice: " + p.copyright);
             for (int i = 0; i < p.teams.Count; i++)
             {
-                this.teamsTableAdapter1.Delete(i, p.teams[i].name);
-                this.teamsTableAdapter1.Insert(p.teams[i].name);
-                Console.WriteLine("ID: " + p.teams[i].id + "\t" + "Team Name: " + p.teams[i].name);
+                //this.teamsTableAdapter1.Delete(i, p.teams[i].name);
+                //this.teamsTableAdapter1.Insert(p.teams[i].name);
+                MessageBox.Show("ID: " + p.teams[i].id + "\t" + "Team Name: " + p.teams[i].name);
             }
-            Console.ReadLine();
+            
         }
 
         private async Task<Product> LoadTeams()
