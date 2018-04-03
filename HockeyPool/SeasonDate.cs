@@ -8,6 +8,12 @@ namespace HockeyPool
 {
     class SeasonDate
     {
-        
+        DateTime date;
+        int totalItems;
+        int totalEvents;
+        int totalGames;
+        int totalMatches;
+
+        List<Game> games;
     }
 }

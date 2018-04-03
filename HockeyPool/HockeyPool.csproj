@@ -66,9 +66,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="AwayTeam.cs" />
+    <Compile Include="GameTeams.cs" />
+    <Compile Include="HomeTeam.cs" />
+    <Compile Include="SeasonDate.cs" />
     <Compile Include="HockeyAPI.cs" />
     <Compile Include="Product.cs" />
+    <Compile Include="Schedule.cs" />
     <Compile Include="TeamFromAPI.cs" />
     <Compile Include="EnterBet.cs">
       <SubType>Form</SubType>
