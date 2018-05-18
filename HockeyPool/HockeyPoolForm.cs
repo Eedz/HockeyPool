@@ -75,7 +75,6 @@ namespace HockeyPool
         // choose a player
         // options:
         // choose a future game
-        // enter a final score for one of their games
         // see their balance
         // see their win/loss
     }

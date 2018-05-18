@@ -66,15 +66,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AwayTeam.cs" />
-    <Compile Include="GameTeams.cs" />
-    <Compile Include="HomeTeam.cs" />
+    <Compile Include="HockeyPoolGame.cs" />
     <Compile Include="NHLAPI.cs" />
-    <Compile Include="SeasonDate.cs" />
     <Compile Include="HockeyAPI.cs" />
-    <Compile Include="Product.cs" />
-    <Compile Include="Schedule.cs" />
-    <Compile Include="TeamFromAPI.cs" />
     <Compile Include="EnterBet.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -87,7 +81,6 @@
     <Compile Include="EnterGameResult.Designer.cs">
       <DependentUpon>EnterGameResult.cs</DependentUpon>
     </Compile>
-    <Compile Include="Game.cs" />
     <Compile Include="HockeyDataDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -108,8 +101,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Score.cs" />
-    <Compile Include="Team.cs" />
     <EmbeddedResource Include="EnterBet.resx">
       <DependentUpon>EnterBet.cs</DependentUpon>
     </EmbeddedResource>

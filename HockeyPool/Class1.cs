@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace HockeyPool
 {
-    class HomeTeam
+    class Profile
     {
+        String name;
+        double cash;
     }
 }
