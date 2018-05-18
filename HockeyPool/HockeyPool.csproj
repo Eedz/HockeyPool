@@ -69,6 +69,7 @@
     <Compile Include="AwayTeam.cs" />
     <Compile Include="GameTeams.cs" />
     <Compile Include="HomeTeam.cs" />
+    <Compile Include="NHLAPI.cs" />
     <Compile Include="SeasonDate.cs" />
     <Compile Include="HockeyAPI.cs" />
     <Compile Include="Product.cs" />

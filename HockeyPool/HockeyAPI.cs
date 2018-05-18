@@ -23,9 +23,9 @@ namespace HockeyPool
                 new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public async Task<Product> GetTeams()
+        public async Task<NHLAPI> GetTeams()
         {
-            Product product = null;
+            NHLAPI product = null;
 
             try
             {
@@ -33,7 +33,7 @@ namespace HockeyPool
                 HttpResponseMessage response = await client.GetAsync("teams").ConfigureAwait(false);
                 if (response.IsSuccessStatusCode)
                 {
-                    product = await response.Content.ReadAsAsync<Product>();
+                    product = await response.Content.ReadAsAsync<NHLAPI>();
                 }
 
                 else
@@ -41,6 +41,32 @@ namespace HockeyPool
                     return null;
                 }
                 
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return product;
+        }
+
+        public async Task<NHLAPI> GetSchedule()
+        {
+            NHLAPI product = null;
+
+            try
+            {
+
+                HttpResponseMessage response = await client.GetAsync("schedule").ConfigureAwait(false);
+                if (response.IsSuccessStatusCode)
+                {
+                    product = await response.Content.ReadAsAsync<NHLAPI>();
+                }
+
+                else
+                {
+                    return null;
+                }
+
             }
             catch (Exception e)
             {

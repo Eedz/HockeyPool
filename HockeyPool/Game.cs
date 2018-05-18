@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HockeyPool
 {
-    class Game
+    class Game2
     {
         int gamePk;
         char gameType;
@@ -14,7 +14,7 @@ namespace HockeyPool
         DateTime gameDate;
         GameTeams teams;
 
-        public Game()
+        public Game2()
         {
 
         }

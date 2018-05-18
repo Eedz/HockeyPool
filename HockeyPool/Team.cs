@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HockeyPool
 {
-    class Team
+    class HockeyTeam
     {
         
         public int id { get; set; }
@@ -25,7 +25,7 @@ namespace HockeyPool
         public int franchiseId { get; set; }
         public bool active { get; set; }
 
-        public Team() { }
+        public HockeyTeam() { }
 
         
     }
