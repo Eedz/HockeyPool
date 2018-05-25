@@ -15,6 +15,7 @@ namespace HockeyPool
         NHLAPI p;
         HockeyAPI hapi = new HockeyAPI();
         List<HockeyPoolGame> todayGames;
+        Person currentUser; // get user from login form
         public HockeyPoolMenu()
         {
             InitializeComponent();
@@ -23,35 +24,14 @@ namespace HockeyPool
 
         
 
-        private async void HockeyPoolMenu_Load(object sender, EventArgs e)
+        private void HockeyPoolMenu_Load(object sender, EventArgs e)
         {
+            // fill the leader board
+            this.tblUsersTableAdapter.Fill(this.hockeyPoolDataSet.tblUsers);
 
-            //this.peopleTableAdapter.Fill(this.hockeyDataDataSet.People);
-            string today = DateTime.Today.ToString("yyyy-MM-dd");
-
-            
-            p = await GetSchedule(today);
-            if (p == null) {
-                MessageBox.Show("Could not get info.");
-                return;
-            }
-
-            HockeyPoolGame g;
-            for (int i = 0; i < p.dates[0].games.Count; i++)
-            {
-                g = new HockeyPoolGame
-                {
-                    GameID = p.dates[0].games[i].gamePk,
-                    GameDate = p.dates[0].games[i].gameDate,
-                    HomeTeam = p.dates[0].games[i].teams.home.team.name,
-                    HomeTeamID = p.dates[0].games[i].teams.home.team.id,
-                    AwayTeam = p.dates[0].games[i].teams.away.team.name,
-                    AwayTeamID = p.dates[0].games[i].teams.away.team.id
-                };
-                todayGames.Add(g);
-            }
-
-            dataGridSchedule.DataSource = todayGames;
+            // get today's games
+            LoadGames(DateTime.Today.ToString("yyyy-MM-dd"));
+          
             cmd1Dollar.Focus();
         }
 
@@ -102,14 +82,6 @@ namespace HockeyPool
         {
             p = await hapi.GetSchedule(d);
             return p;
-        }
-
-
-        private void peopleListToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Form frmPeople;
-            frmPeople = new HockeyPoolForm();
-            frmPeople.Show();
         }
 
         private void cmd1Dollar_Click(object sender, EventArgs e)
@@ -180,6 +152,6 @@ namespace HockeyPool
             dataGridSchedule.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
 
-        
+
     }
 }

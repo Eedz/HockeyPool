@@ -29,55 +29,26 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.peopleBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.hockeyDataDataSet = new HockeyPool.HockeyDataDataSet();
-            this.peopleTableAdapter = new HockeyPool.HockeyDataDataSetTableAdapters.PeopleTableAdapter();
-            this.tableAdapterManager = new HockeyPool.HockeyDataDataSetTableAdapters.TableAdapterManager();
             this.cmd1Dollar = new System.Windows.Forms.Button();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.peopleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.peopleListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.gameListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cmd2Dollar = new System.Windows.Forms.Button();
             this.cmd5Dollar = new System.Windows.Forms.Button();
-            this.teamsTableAdapter1 = new HockeyPool.HockeyDataDataSetTableAdapters.TeamsTableAdapter();
             this.dataGridSchedule = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
-            this.peopleDataGridView = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
             this.dtpSchedule = new System.Windows.Forms.DateTimePicker();
-            ((System.ComponentModel.ISupportInitialize)(this.peopleBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.hockeyDataDataSet)).BeginInit();
-            this.menuStrip1.SuspendLayout();
+            this.hockeyPoolDataSet = new HockeyPool.HockeyPoolDataSet();
+            this.tblUsersBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.tblUsersTableAdapter = new HockeyPool.HockeyPoolDataSetTableAdapters.tblUsersTableAdapter();
+            this.tableAdapterManager = new HockeyPool.HockeyPoolDataSetTableAdapters.TableAdapterManager();
+            this.tblUsersDataGridView = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridSchedule)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.peopleDataGridView)).BeginInit();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.hockeyPoolDataSet)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tblUsersBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tblUsersDataGridView)).BeginInit();
             this.SuspendLayout();
-            // 
-            // peopleBindingSource
-            // 
-            this.peopleBindingSource.DataMember = "People";
-            this.peopleBindingSource.DataSource = this.hockeyDataDataSet;
-            // 
-            // hockeyDataDataSet
-            // 
-            this.hockeyDataDataSet.DataSetName = "HockeyDataDataSet";
-            this.hockeyDataDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // peopleTableAdapter
-            // 
-            this.peopleTableAdapter.ClearBeforeFill = true;
-            // 
-            // tableAdapterManager
-            // 
-            this.tableAdapterManager.BackupDataSetBeforeUpdate = false;
-            this.tableAdapterManager.BetsTableAdapter = null;
-            this.tableAdapterManager.GamesTableAdapter = null;
-            this.tableAdapterManager.PeopleTableAdapter = this.peopleTableAdapter;
-            this.tableAdapterManager.TeamsTableAdapter = null;
-            this.tableAdapterManager.UpdateOrder = HockeyPool.HockeyDataDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
             // 
             // cmd1Dollar
             // 
@@ -88,38 +59,6 @@
             this.cmd1Dollar.Text = "$1";
             this.cmd1Dollar.UseVisualStyleBackColor = true;
             this.cmd1Dollar.Click += new System.EventHandler(this.cmd1Dollar_Click);
-            // 
-            // menuStrip1
-            // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.peopleToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(610, 24);
-            this.menuStrip1.TabIndex = 8;
-            this.menuStrip1.Text = "menuStrip1";
-            // 
-            // peopleToolStripMenuItem
-            // 
-            this.peopleToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.peopleListToolStripMenuItem,
-            this.gameListToolStripMenuItem});
-            this.peopleToolStripMenuItem.Name = "peopleToolStripMenuItem";
-            this.peopleToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.peopleToolStripMenuItem.Text = "View";
-            // 
-            // peopleListToolStripMenuItem
-            // 
-            this.peopleListToolStripMenuItem.Name = "peopleListToolStripMenuItem";
-            this.peopleListToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.peopleListToolStripMenuItem.Text = "People List";
-            this.peopleListToolStripMenuItem.Click += new System.EventHandler(this.peopleListToolStripMenuItem_Click);
-            // 
-            // gameListToolStripMenuItem
-            // 
-            this.gameListToolStripMenuItem.Name = "gameListToolStripMenuItem";
-            this.gameListToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.gameListToolStripMenuItem.Text = "Game List";
             // 
             // cmd2Dollar
             // 
@@ -140,10 +79,6 @@
             this.cmd5Dollar.Text = "$5";
             this.cmd5Dollar.UseVisualStyleBackColor = true;
             this.cmd5Dollar.Click += new System.EventHandler(this.cmd5Dollar_Click);
-            // 
-            // teamsTableAdapter1
-            // 
-            this.teamsTableAdapter1.ClearBeforeFill = true;
             // 
             // dataGridSchedule
             // 
@@ -168,44 +103,13 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "Leaderboard";
             // 
-            // peopleDataGridView
-            // 
-            this.peopleDataGridView.AllowUserToAddRows = false;
-            this.peopleDataGridView.AllowUserToDeleteRows = false;
-            this.peopleDataGridView.AutoGenerateColumns = false;
-            this.peopleDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.peopleDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn2,
-            this.dataGridViewTextBoxColumn3});
-            this.peopleDataGridView.DataSource = this.peopleBindingSource;
-            this.peopleDataGridView.Location = new System.Drawing.Point(10, 43);
-            this.peopleDataGridView.Name = "peopleDataGridView";
-            this.peopleDataGridView.ReadOnly = true;
-            this.peopleDataGridView.RowHeadersVisible = false;
-            this.peopleDataGridView.Size = new System.Drawing.Size(249, 113);
-            this.peopleDataGridView.TabIndex = 6;
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            this.dataGridViewTextBoxColumn3.DataPropertyName = "Balance";
-            this.dataGridViewTextBoxColumn3.HeaderText = "Balance";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            this.dataGridViewTextBoxColumn3.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.DataPropertyName = "Name";
-            this.dataGridViewTextBoxColumn2.HeaderText = "Name";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.ReadOnly = true;
-            // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.peopleDataGridView);
+            this.panel1.Controls.Add(this.tblUsersDataGridView);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(199, 265);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(270, 168);
+            this.panel1.Size = new System.Drawing.Size(270, 177);
             this.panel1.TabIndex = 13;
             // 
             // dtpSchedule
@@ -216,54 +120,96 @@
             this.dtpSchedule.TabIndex = 14;
             this.dtpSchedule.ValueChanged += new System.EventHandler(this.dtpSchedule_ValueChanged);
             // 
+            // hockeyPoolDataSet
+            // 
+            this.hockeyPoolDataSet.DataSetName = "HockeyPoolDataSet";
+            this.hockeyPoolDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // tblUsersBindingSource
+            // 
+            this.tblUsersBindingSource.DataMember = "tblUsers";
+            this.tblUsersBindingSource.DataSource = this.hockeyPoolDataSet;
+            // 
+            // tblUsersTableAdapter
+            // 
+            this.tblUsersTableAdapter.ClearBeforeFill = true;
+            // 
+            // tableAdapterManager
+            // 
+            this.tableAdapterManager.BackupDataSetBeforeUpdate = false;
+            this.tableAdapterManager.tblPwdTableAdapter = null;
+            this.tableAdapterManager.tblUsersTableAdapter = this.tblUsersTableAdapter;
+            this.tableAdapterManager.UpdateOrder = HockeyPool.HockeyPoolDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
+            // 
+            // tblUsersDataGridView
+            // 
+            this.tblUsersDataGridView.AllowUserToAddRows = false;
+            this.tblUsersDataGridView.AllowUserToDeleteRows = false;
+            this.tblUsersDataGridView.AutoGenerateColumns = false;
+            this.tblUsersDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.tblUsersDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn2,
+            this.dataGridViewTextBoxColumn3});
+            this.tblUsersDataGridView.DataSource = this.tblUsersBindingSource;
+            this.tblUsersDataGridView.Location = new System.Drawing.Point(10, 33);
+            this.tblUsersDataGridView.Name = "tblUsersDataGridView";
+            this.tblUsersDataGridView.ReadOnly = true;
+            this.tblUsersDataGridView.RowHeadersVisible = false;
+            this.tblUsersDataGridView.Size = new System.Drawing.Size(248, 141);
+            this.tblUsersDataGridView.TabIndex = 16;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.DataPropertyName = "username";
+            this.dataGridViewTextBoxColumn2.HeaderText = "Name";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.DataPropertyName = "balance";
+            this.dataGridViewTextBoxColumn3.HeaderText = "Balance";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.ReadOnly = true;
+            // 
             // HockeyPoolMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(610, 471);
+            this.ClientSize = new System.Drawing.Size(892, 546);
             this.Controls.Add(this.dtpSchedule);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.dataGridSchedule);
             this.Controls.Add(this.cmd5Dollar);
             this.Controls.Add(this.cmd2Dollar);
             this.Controls.Add(this.cmd1Dollar);
-            this.Controls.Add(this.menuStrip1);
-            this.MainMenuStrip = this.menuStrip1;
             this.Name = "HockeyPoolMenu";
             this.Text = "Hockey Pool Menu";
             this.Load += new System.EventHandler(this.HockeyPoolMenu_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.peopleBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.hockeyDataDataSet)).EndInit();
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridSchedule)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.peopleDataGridView)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.hockeyPoolDataSet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tblUsersBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tblUsersDataGridView)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-        private HockeyDataDataSet hockeyDataDataSet;
-        private System.Windows.Forms.BindingSource peopleBindingSource;
-        private HockeyDataDataSetTableAdapters.PeopleTableAdapter peopleTableAdapter;
-        private HockeyDataDataSetTableAdapters.TableAdapterManager tableAdapterManager;
         private System.Windows.Forms.Button cmd1Dollar;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem peopleToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem peopleListToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem gameListToolStripMenuItem;
         private System.Windows.Forms.Button cmd2Dollar;
         private System.Windows.Forms.Button cmd5Dollar;
-        private HockeyDataDataSetTableAdapters.TeamsTableAdapter teamsTableAdapter1;
         private System.Windows.Forms.DataGridView dataGridSchedule;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DataGridView peopleDataGridView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.DateTimePicker dtpSchedule;
+        private HockeyPoolDataSet hockeyPoolDataSet;
+        private System.Windows.Forms.BindingSource tblUsersBindingSource;
+        private HockeyPoolDataSetTableAdapters.tblUsersTableAdapter tblUsersTableAdapter;
+        private HockeyPoolDataSetTableAdapters.TableAdapterManager tableAdapterManager;
+        private System.Windows.Forms.DataGridView tblUsersDataGridView;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
     }
 }

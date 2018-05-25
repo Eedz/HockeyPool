@@ -14,7 +14,7 @@ namespace HockeyPool
     {
         
         int betAmount;
-        Game nextGame;
+        
 
         // get next game for this user
         HockeyPoolGame currentGame; // the game being bet on
@@ -42,11 +42,16 @@ namespace HockeyPool
         private void cmdAwayTeam_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Insert Bet record for away team for gameID " + currentGame.GameID);
+            // stored procedure proc_CreateBet
+            //currentGame.AwayTeamID
+            
         }
 
         private void cmdHomeTeam_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Insert Bet record for home team for gameID " + currentGame.GameID);
+            // stored procedure proc_CreateBet
+            //userID, gameID, teamID betAmount
         }
     }
 }

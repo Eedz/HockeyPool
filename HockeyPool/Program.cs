@@ -16,7 +16,23 @@ namespace HockeyPool
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new HockeyPoolMenu());
+            //Application.Run(new HockeyPoolMenu());
+
+            Form login = new HockeyPoolLogin();
+            switch (login.ShowDialog()) 
+            {
+                case DialogResult.OK:
+                    login.Close();
+                    Application.Run(new HockeyPoolMenu());
+                    break;
+                case DialogResult.Cancel:
+                    Application.Exit();
+                    break;
+                case DialogResult.No:
+                    MessageBox.Show("Unsuccessful login attempt.");
+                    break;
+            }
+            
         }
     }
 }

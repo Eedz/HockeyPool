@@ -51,6 +51,7 @@
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.4\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -66,7 +67,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HockeyPoolDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HockeyPoolDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="HockeyPoolGame.cs" />
+    <Compile Include="HockeyPoolLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HockeyPoolLogin.Designer.cs">
+      <DependentUpon>HockeyPoolLogin.cs</DependentUpon>
+    </Compile>
     <Compile Include="NHLAPI.cs" />
     <Compile Include="HockeyAPI.cs" />
     <Compile Include="EnterBet.cs">
@@ -75,17 +87,6 @@
     <Compile Include="EnterBet.Designer.cs">
       <DependentUpon>EnterBet.cs</DependentUpon>
     </Compile>
-    <Compile Include="EnterGameResult.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="EnterGameResult.Designer.cs">
-      <DependentUpon>EnterGameResult.cs</DependentUpon>
-    </Compile>
-    <Compile Include="HockeyDataDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>HockeyDataDataSet.xsd</DependentUpon>
-    </Compile>
     <Compile Include="HockeyPoolMenu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -93,22 +94,13 @@
       <DependentUpon>HockeyPoolMenu.cs</DependentUpon>
     </Compile>
     <Compile Include="Person.cs" />
-    <Compile Include="HockeyPoolForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="HockeyPoolForm.Designer.cs">
-      <DependentUpon>HockeyPoolForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="EnterBet.resx">
       <DependentUpon>EnterBet.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EnterGameResult.resx">
-      <DependentUpon>EnterGameResult.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="HockeyPoolForm.resx">
-      <DependentUpon>HockeyPoolForm.cs</DependentUpon>
+    <EmbeddedResource Include="HockeyPoolLogin.resx">
+      <DependentUpon>HockeyPoolLogin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HockeyPoolMenu.resx">
       <DependentUpon>HockeyPoolMenu.cs</DependentUpon>
@@ -122,16 +114,16 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="HockeyDataDataSet.xsc">
-      <DependentUpon>HockeyDataDataSet.xsd</DependentUpon>
+    <None Include="HockeyPoolDataSet.xsc">
+      <DependentUpon>HockeyPoolDataSet.xsd</DependentUpon>
     </None>
-    <None Include="HockeyDataDataSet.xsd">
+    <None Include="HockeyPoolDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>HockeyDataDataSet.Designer.cs</LastGenOutput>
+      <LastGenOutput>HockeyPoolDataSet.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
-    <None Include="HockeyDataDataSet.xss">
-      <DependentUpon>HockeyDataDataSet.xsd</DependentUpon>
+    <None Include="HockeyPoolDataSet.xss">
+      <DependentUpon>HockeyPoolDataSet.xsd</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -146,12 +138,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="HockeyData.mdf" />
-    <Content Include="HockeyData_log.ldf">
-      <DependentUpon>HockeyData.mdf</DependentUpon>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
