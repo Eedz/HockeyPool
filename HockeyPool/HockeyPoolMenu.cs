@@ -22,7 +22,16 @@ namespace HockeyPool
             todayGames = new List<HockeyPoolGame>();
         }
 
-        
+        public HockeyPoolMenu(string user)
+        {
+            InitializeComponent();
+            ResolveBets();
+            todayGames = new List<HockeyPoolGame>();
+
+            currentUser = DBUtilities.GetUser(user);
+            
+            
+        }
 
         private void HockeyPoolMenu_Load(object sender, EventArgs e)
         {
@@ -38,16 +47,20 @@ namespace HockeyPool
         private async void LoadGames(string d)
         {
             p = await GetSchedule(d);
+            todayGames.Clear();
+            dataGridSchedule.DataSource = null;
             if (p == null)
             {
                 MessageBox.Show("Could not get info.");
+                
                 return;
             }
             if (p.totalGames == 0 ){
                 MessageBox.Show("No games scheduled for " + d);
+                
                 return;
             }
-            todayGames.Clear();
+           
             HockeyPoolGame g;
             for (int i = 0; i < p.dates[0].games.Count; i++)
             {
@@ -62,7 +75,7 @@ namespace HockeyPool
                 };
                 todayGames.Add(g);
             }
-            dataGridSchedule.DataSource = null;
+            
             dataGridSchedule.DataSource = todayGames;
         }
 
@@ -89,7 +102,7 @@ namespace HockeyPool
             Form frmBet;
             HockeyPoolGame g = (HockeyPoolGame) dataGridSchedule.CurrentRow.DataBoundItem;
 
-            frmBet = new EnterBet(1, g);
+            frmBet = new EnterBet(1, g, currentUser.ID);
             
             frmBet.Show();
         }
@@ -99,7 +112,7 @@ namespace HockeyPool
             Form frmBet;
             HockeyPoolGame g = (HockeyPoolGame)dataGridSchedule.CurrentRow.DataBoundItem;
 
-            frmBet = new EnterBet(2, g);
+            frmBet = new EnterBet(2, g, currentUser.ID);
 
             frmBet.Show();
         }
@@ -109,7 +122,7 @@ namespace HockeyPool
             Form frmBet;
             HockeyPoolGame g = (HockeyPoolGame)dataGridSchedule.CurrentRow.DataBoundItem;
 
-            frmBet = new EnterBet(5, g);
+            frmBet = new EnterBet(5, g, currentUser.ID);
 
             frmBet.Show();
         }
@@ -118,6 +131,13 @@ namespace HockeyPool
         {
             DateTimePicker dtp = sender as DateTimePicker;
             LoadGames(dtp.Value.ToString("yyyy-MM-dd"));
+            if (dtp.Value < DateTime.Today)
+            {
+                cmd1Dollar.Enabled = false;
+                cmd2Dollar.Enabled = false;
+                cmd5Dollar.Enabled = false;
+            }
+
         }
 
         /// <summary>
@@ -153,5 +173,30 @@ namespace HockeyPool
         }
 
 
+
+        private async void ResolveBets()
+        {
+            // get unresolved bets
+            DataTable bets;
+            Date gameDate;
+
+            bets = tblBetsTableAdapter.GetDataByUnresolved();
+
+            foreach (DataRow r in bets.Rows)
+            {
+                p = await hapi.GetGameResult(r["gameID"].ToString());
+               
+            }
+
+            // for each unique game ID, get the game object, and if it is from before today's date, keep it, otherwise discard it
+            
+            
+
+
+            // for each bet, compare the bet's winning team to the game's winning team
+            
+
+        }
+       
     }
 }

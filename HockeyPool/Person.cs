@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace HockeyPool
 {
-    class Person
+    public class Person
     {
-        String name;
+        int id;
+        string name;
         double balance;
         List<Game> games;
 
@@ -24,5 +25,8 @@ namespace HockeyPool
             name = n;
             balance = b;
         }
+
+        public int ID { get => id; set => id = value; }
+        public string Name { get => name; set => name = value; }
     }
 }

@@ -35,19 +35,20 @@
             this.dataGridSchedule = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.dtpSchedule = new System.Windows.Forms.DateTimePicker();
-            this.hockeyPoolDataSet = new HockeyPool.HockeyPoolDataSet();
-            this.tblUsersBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.tblUsersTableAdapter = new HockeyPool.HockeyPoolDataSetTableAdapters.tblUsersTableAdapter();
-            this.tableAdapterManager = new HockeyPool.HockeyPoolDataSetTableAdapters.TableAdapterManager();
             this.tblUsersDataGridView = new System.Windows.Forms.DataGridView();
+            this.dtpSchedule = new System.Windows.Forms.DateTimePicker();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tblUsersBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.hockeyPoolDataSet = new HockeyPool.HockeyPoolDataSet();
+            this.tblUsersTableAdapter = new HockeyPool.HockeyPoolDataSetTableAdapters.tblUsersTableAdapter();
+            this.tableAdapterManager = new HockeyPool.HockeyPoolDataSetTableAdapters.TableAdapterManager();
+            this.tblBetsTableAdapter = new HockeyPool.HockeyPoolDataSetTableAdapters.tblBetsTableAdapter();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridSchedule)).BeginInit();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.hockeyPoolDataSet)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tblUsersBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tblUsersDataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tblUsersBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hockeyPoolDataSet)).BeginInit();
             this.SuspendLayout();
             // 
             // cmd1Dollar
@@ -112,35 +113,6 @@
             this.panel1.Size = new System.Drawing.Size(270, 177);
             this.panel1.TabIndex = 13;
             // 
-            // dtpSchedule
-            // 
-            this.dtpSchedule.Location = new System.Drawing.Point(209, 29);
-            this.dtpSchedule.Name = "dtpSchedule";
-            this.dtpSchedule.Size = new System.Drawing.Size(248, 20);
-            this.dtpSchedule.TabIndex = 14;
-            this.dtpSchedule.ValueChanged += new System.EventHandler(this.dtpSchedule_ValueChanged);
-            // 
-            // hockeyPoolDataSet
-            // 
-            this.hockeyPoolDataSet.DataSetName = "HockeyPoolDataSet";
-            this.hockeyPoolDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // tblUsersBindingSource
-            // 
-            this.tblUsersBindingSource.DataMember = "tblUsers";
-            this.tblUsersBindingSource.DataSource = this.hockeyPoolDataSet;
-            // 
-            // tblUsersTableAdapter
-            // 
-            this.tblUsersTableAdapter.ClearBeforeFill = true;
-            // 
-            // tableAdapterManager
-            // 
-            this.tableAdapterManager.BackupDataSetBeforeUpdate = false;
-            this.tableAdapterManager.tblPwdTableAdapter = null;
-            this.tableAdapterManager.tblUsersTableAdapter = this.tblUsersTableAdapter;
-            this.tableAdapterManager.UpdateOrder = HockeyPool.HockeyPoolDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
-            // 
             // tblUsersDataGridView
             // 
             this.tblUsersDataGridView.AllowUserToAddRows = false;
@@ -158,6 +130,14 @@
             this.tblUsersDataGridView.Size = new System.Drawing.Size(248, 141);
             this.tblUsersDataGridView.TabIndex = 16;
             // 
+            // dtpSchedule
+            // 
+            this.dtpSchedule.Location = new System.Drawing.Point(209, 29);
+            this.dtpSchedule.Name = "dtpSchedule";
+            this.dtpSchedule.Size = new System.Drawing.Size(248, 20);
+            this.dtpSchedule.TabIndex = 14;
+            this.dtpSchedule.ValueChanged += new System.EventHandler(this.dtpSchedule_ValueChanged);
+            // 
             // dataGridViewTextBoxColumn2
             // 
             this.dataGridViewTextBoxColumn2.DataPropertyName = "username";
@@ -171,6 +151,32 @@
             this.dataGridViewTextBoxColumn3.HeaderText = "Balance";
             this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
             this.dataGridViewTextBoxColumn3.ReadOnly = true;
+            // 
+            // tblUsersBindingSource
+            // 
+            this.tblUsersBindingSource.DataMember = "tblUsers";
+            this.tblUsersBindingSource.DataSource = this.hockeyPoolDataSet;
+            // 
+            // hockeyPoolDataSet
+            // 
+            this.hockeyPoolDataSet.DataSetName = "HockeyPoolDataSet";
+            this.hockeyPoolDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // tblUsersTableAdapter
+            // 
+            this.tblUsersTableAdapter.ClearBeforeFill = true;
+            // 
+            // tableAdapterManager
+            // 
+            this.tableAdapterManager.BackupDataSetBeforeUpdate = false;
+            this.tableAdapterManager.tblBetsTableAdapter = null;
+            this.tableAdapterManager.tblPwdTableAdapter = null;
+            this.tableAdapterManager.tblUsersTableAdapter = this.tblUsersTableAdapter;
+            this.tableAdapterManager.UpdateOrder = HockeyPool.HockeyPoolDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
+            // 
+            // tblBetsTableAdapter
+            // 
+            this.tblBetsTableAdapter.ClearBeforeFill = true;
             // 
             // HockeyPoolMenu
             // 
@@ -189,9 +195,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridSchedule)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.hockeyPoolDataSet)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tblUsersBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tblUsersDataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tblUsersBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hockeyPoolDataSet)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -211,5 +217,6 @@
         private System.Windows.Forms.DataGridView tblUsersDataGridView;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private HockeyPoolDataSetTableAdapters.tblBetsTableAdapter tblBetsTableAdapter;
     }
 }

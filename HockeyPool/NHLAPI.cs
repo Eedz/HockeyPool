@@ -99,6 +99,27 @@ namespace HockeyPool
         public List<object> matches { get; set; }
     }
 
+    public class TeamSkaterStats
+    {
+        public int goals { get; set; }
+        public int pim { get; set; }
+        public int shots { get; set; }
+        public string powerPlayPercentage { get; set; }
+        public double powerPlayGoals { get; set; }
+        public double powerPlayOpportunities { get; set; }
+        public string faceOffWinPercentage { get; set; }
+        public int blocked { get; set; }
+        public int takeaways { get; set; }
+        public int giveaways { get; set; }
+        public int hits { get; set; }
+    }
+
+    public class TeamStats
+    {
+        public TeamSkaterStats teamSkaterStats { get; set; }
+    }
+
+
     public class NHLAPI
     {
         public string copyright { get; set; }
@@ -108,5 +129,7 @@ namespace HockeyPool
         public int totalMatches { get; set; }
         public int wait { get; set; }
         public List<Date> dates { get; set; }
+        public List<Game> games { get; set; }
+        public Teams teams { get; set; } // for boxscores
     }
 }

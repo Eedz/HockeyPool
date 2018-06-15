@@ -15,14 +15,26 @@ namespace HockeyPool
 {
     public partial class HockeyPoolLogin : Form
     {
+
+        private string username;
+
         public HockeyPoolLogin()
         {
             InitializeComponent();
         }
 
+        public string Username { get => username; set => username = value; }
+
         private void cmdLogin_Click(object sender, EventArgs e)
         {
+            
+            if (txtUserName.Text.Equals("") || txtPassword.Text.Equals("")){
+                return;
+            }
+
             string result;
+            username = txtUserName.Text;
+
             SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["HockeyPoolConnectionString"].ConnectionString);
             using (SqlCommand cmd = new SqlCommand("proc_Login", conn))
             {

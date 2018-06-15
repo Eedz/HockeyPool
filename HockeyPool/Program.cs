@@ -18,12 +18,14 @@ namespace HockeyPool
             Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new HockeyPoolMenu());
 
-            Form login = new HockeyPoolLogin();
+            HockeyPoolLogin login = new HockeyPoolLogin();
             switch (login.ShowDialog()) 
             {
                 case DialogResult.OK:
                     login.Close();
-                    Application.Run(new HockeyPoolMenu());
+                    
+                    
+                    Application.Run(new HockeyPoolMenu(login.Username));
                     break;
                 case DialogResult.Cancel:
                     Application.Exit();

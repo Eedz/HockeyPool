@@ -944,6 +944,8 @@ namespace HockeyPool {
             
             private global::System.Data.DataColumn columnWinnerID;
             
+            private global::System.Data.DataColumn columnResolved;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public tblBetsDataTable() {
@@ -1019,6 +1021,14 @@ namespace HockeyPool {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn ResolvedColumn {
+                get {
+                    return this.columnResolved;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1054,14 +1064,15 @@ namespace HockeyPool {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public tblBetsRow AddtblBetsRow(int UserID, int GameID, decimal BetAmount, int WinnerID) {
+            public tblBetsRow AddtblBetsRow(int UserID, int GameID, decimal BetAmount, int WinnerID, bool Resolved) {
                 tblBetsRow rowtblBetsRow = ((tblBetsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
                         UserID,
                         GameID,
                         BetAmount,
-                        WinnerID};
+                        WinnerID,
+                        Resolved};
                 rowtblBetsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowtblBetsRow);
                 return rowtblBetsRow;
@@ -1096,6 +1107,7 @@ namespace HockeyPool {
                 this.columnGameID = base.Columns["GameID"];
                 this.columnBetAmount = base.Columns["BetAmount"];
                 this.columnWinnerID = base.Columns["WinnerID"];
+                this.columnResolved = base.Columns["Resolved"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1111,6 +1123,8 @@ namespace HockeyPool {
                 base.Columns.Add(this.columnBetAmount);
                 this.columnWinnerID = new global::System.Data.DataColumn("WinnerID", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnWinnerID);
+                this.columnResolved = new global::System.Data.DataColumn("Resolved", typeof(bool), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnResolved);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnID}, true));
                 this.columnID.AutoIncrement = true;
@@ -1123,6 +1137,7 @@ namespace HockeyPool {
                 this.columnGameID.AllowDBNull = false;
                 this.columnBetAmount.AllowDBNull = false;
                 this.columnWinnerID.AllowDBNull = false;
+                this.columnResolved.AllowDBNull = false;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1411,6 +1426,17 @@ namespace HockeyPool {
                 }
                 set {
                     this[this.tabletblBets.WinnerIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool Resolved {
+                get {
+                    return ((bool)(this[this.tabletblBets.ResolvedColumn]));
+                }
+                set {
+                    this[this.tabletblBets.ResolvedColumn] = value;
                 }
             }
         }
@@ -2013,11 +2039,16 @@ namespace HockeyPool.HockeyPoolDataSetTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
+            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[2];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT ID, username, balance FROM dbo.tblUsers";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[1] = new global::System.Data.SqlClient.SqlCommand();
+            this._commandCollection[1].Connection = this.Connection;
+            this._commandCollection[1].CommandText = "SELECT ID, username, balance FROM dbo.tblUsers WHERE ID = @id";
+            this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@id", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "ID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2042,6 +2073,20 @@ namespace HockeyPool.HockeyPoolDataSetTableAdapters {
             HockeyPoolDataSet.tblUsersDataTable dataTable = new HockeyPoolDataSet.tblUsersDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
+        public virtual int FillByID(HockeyPoolDataSet.tblUsersDataTable dataTable, int id) {
+            this.Adapter.SelectCommand = this.CommandCollection[1];
+            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(id));
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2302,42 +2347,49 @@ namespace HockeyPool.HockeyPoolDataSetTableAdapters {
             tableMapping.ColumnMappings.Add("GameID", "GameID");
             tableMapping.ColumnMappings.Add("BetAmount", "BetAmount");
             tableMapping.ColumnMappings.Add("WinnerID", "WinnerID");
+            tableMapping.ColumnMappings.Add("Resolved", "Resolved");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
             this._adapter.DeleteCommand.CommandText = "DELETE FROM [dbo].[tblBets] WHERE (([ID] = @Original_ID) AND ([UserID] = @Origina" +
                 "l_UserID) AND ([GameID] = @Original_GameID) AND ([BetAmount] = @Original_BetAmou" +
-                "nt) AND ([WinnerID] = @Original_WinnerID))";
+                "nt) AND ([WinnerID] = @Original_WinnerID) AND ([Resolved] = @Original_Resolved))" +
+                "";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_UserID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "UserID", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_GameID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "GameID", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_BetAmount", global::System.Data.SqlDbType.Money, 0, global::System.Data.ParameterDirection.Input, 0, 0, "BetAmount", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_WinnerID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "WinnerID", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Resolved", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Resolved", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.InsertCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = "INSERT INTO [dbo].[tblBets] ([UserID], [GameID], [BetAmount], [WinnerID]) VALUES " +
-                "(@UserID, @GameID, @BetAmount, @WinnerID);\r\nSELECT ID, UserID, GameID, BetAmount" +
-                ", WinnerID FROM dbo.tblBets WHERE (ID = SCOPE_IDENTITY())";
+            this._adapter.InsertCommand.CommandText = "INSERT INTO [dbo].[tblBets] ([UserID], [GameID], [BetAmount], [WinnerID], [Resolv" +
+                "ed]) VALUES (@UserID, @GameID, @BetAmount, @WinnerID, @Resolved);\r\nSELECT ID, Us" +
+                "erID, GameID, BetAmount, WinnerID, Resolved FROM dbo.tblBets WHERE (ID = SCOPE_I" +
+                "DENTITY())";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@UserID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "UserID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@GameID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "GameID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@BetAmount", global::System.Data.SqlDbType.Money, 0, global::System.Data.ParameterDirection.Input, 0, 0, "BetAmount", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@WinnerID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "WinnerID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Resolved", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Resolved", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE [dbo].[tblBets] SET [UserID] = @UserID, [GameID] = @GameID, [BetAmount] = @BetAmount, [WinnerID] = @WinnerID WHERE (([ID] = @Original_ID) AND ([UserID] = @Original_UserID) AND ([GameID] = @Original_GameID) AND ([BetAmount] = @Original_BetAmount) AND ([WinnerID] = @Original_WinnerID));
-SELECT ID, UserID, GameID, BetAmount, WinnerID FROM dbo.tblBets WHERE (ID = @ID)";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE [dbo].[tblBets] SET [UserID] = @UserID, [GameID] = @GameID, [BetAmount] = @BetAmount, [WinnerID] = @WinnerID, [Resolved] = @Resolved WHERE (([ID] = @Original_ID) AND ([UserID] = @Original_UserID) AND ([GameID] = @Original_GameID) AND ([BetAmount] = @Original_BetAmount) AND ([WinnerID] = @Original_WinnerID) AND ([Resolved] = @Original_Resolved));
+SELECT ID, UserID, GameID, BetAmount, WinnerID, Resolved FROM dbo.tblBets WHERE (ID = @ID)";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@UserID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "UserID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@GameID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "GameID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@BetAmount", global::System.Data.SqlDbType.Money, 0, global::System.Data.ParameterDirection.Input, 0, 0, "BetAmount", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@WinnerID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "WinnerID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Resolved", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Resolved", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_UserID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "UserID", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_GameID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "GameID", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_BetAmount", global::System.Data.SqlDbType.Money, 0, global::System.Data.ParameterDirection.Input, 0, 0, "BetAmount", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_WinnerID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "WinnerID", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Resolved", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Resolved", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "ID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
@@ -2351,11 +2403,16 @@ SELECT ID, UserID, GameID, BetAmount, WinnerID FROM dbo.tblBets WHERE (ID = @ID)
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
+            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[2];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT ID, UserID, GameID, BetAmount, WinnerID FROM dbo.tblBets";
+            this._commandCollection[0].CommandText = "SELECT ID, UserID, GameID, BetAmount, WinnerID, Resolved FROM dbo.tblBets";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[1] = new global::System.Data.SqlClient.SqlCommand();
+            this._commandCollection[1].Connection = this.Connection;
+            this._commandCollection[1].CommandText = "dbo.proc_GetUnresolvedBets";
+            this._commandCollection[1].CommandType = global::System.Data.CommandType.StoredProcedure;
+            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@RETURN_VALUE", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.ReturnValue, 10, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2377,6 +2434,17 @@ SELECT ID, UserID, GameID, BetAmount, WinnerID FROM dbo.tblBets WHERE (ID = @ID)
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
         public virtual HockeyPoolDataSet.tblBetsDataTable GetData() {
             this.Adapter.SelectCommand = this.CommandCollection[0];
+            HockeyPoolDataSet.tblBetsDataTable dataTable = new HockeyPoolDataSet.tblBetsDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
+        public virtual HockeyPoolDataSet.tblBetsDataTable GetDataByUnresolved() {
+            this.Adapter.SelectCommand = this.CommandCollection[1];
             HockeyPoolDataSet.tblBetsDataTable dataTable = new HockeyPoolDataSet.tblBetsDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
@@ -2415,12 +2483,13 @@ SELECT ID, UserID, GameID, BetAmount, WinnerID FROM dbo.tblBets WHERE (ID = @ID)
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(int Original_ID, int Original_UserID, int Original_GameID, decimal Original_BetAmount, int Original_WinnerID) {
+        public virtual int Delete(int Original_ID, int Original_UserID, int Original_GameID, decimal Original_BetAmount, int Original_WinnerID, bool Original_Resolved) {
             this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_ID));
             this.Adapter.DeleteCommand.Parameters[1].Value = ((int)(Original_UserID));
             this.Adapter.DeleteCommand.Parameters[2].Value = ((int)(Original_GameID));
             this.Adapter.DeleteCommand.Parameters[3].Value = ((decimal)(Original_BetAmount));
             this.Adapter.DeleteCommand.Parameters[4].Value = ((int)(Original_WinnerID));
+            this.Adapter.DeleteCommand.Parameters[5].Value = ((bool)(Original_Resolved));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -2441,11 +2510,12 @@ SELECT ID, UserID, GameID, BetAmount, WinnerID FROM dbo.tblBets WHERE (ID = @ID)
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(int UserID, int GameID, decimal BetAmount, int WinnerID) {
+        public virtual int Insert(int UserID, int GameID, decimal BetAmount, int WinnerID, bool Resolved) {
             this.Adapter.InsertCommand.Parameters[0].Value = ((int)(UserID));
             this.Adapter.InsertCommand.Parameters[1].Value = ((int)(GameID));
             this.Adapter.InsertCommand.Parameters[2].Value = ((decimal)(BetAmount));
             this.Adapter.InsertCommand.Parameters[3].Value = ((int)(WinnerID));
+            this.Adapter.InsertCommand.Parameters[4].Value = ((bool)(Resolved));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -2466,17 +2536,19 @@ SELECT ID, UserID, GameID, BetAmount, WinnerID FROM dbo.tblBets WHERE (ID = @ID)
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(int UserID, int GameID, decimal BetAmount, int WinnerID, int Original_ID, int Original_UserID, int Original_GameID, decimal Original_BetAmount, int Original_WinnerID, int ID) {
+        public virtual int Update(int UserID, int GameID, decimal BetAmount, int WinnerID, bool Resolved, int Original_ID, int Original_UserID, int Original_GameID, decimal Original_BetAmount, int Original_WinnerID, bool Original_Resolved, int ID) {
             this.Adapter.UpdateCommand.Parameters[0].Value = ((int)(UserID));
             this.Adapter.UpdateCommand.Parameters[1].Value = ((int)(GameID));
             this.Adapter.UpdateCommand.Parameters[2].Value = ((decimal)(BetAmount));
             this.Adapter.UpdateCommand.Parameters[3].Value = ((int)(WinnerID));
-            this.Adapter.UpdateCommand.Parameters[4].Value = ((int)(Original_ID));
-            this.Adapter.UpdateCommand.Parameters[5].Value = ((int)(Original_UserID));
-            this.Adapter.UpdateCommand.Parameters[6].Value = ((int)(Original_GameID));
-            this.Adapter.UpdateCommand.Parameters[7].Value = ((decimal)(Original_BetAmount));
-            this.Adapter.UpdateCommand.Parameters[8].Value = ((int)(Original_WinnerID));
-            this.Adapter.UpdateCommand.Parameters[9].Value = ((int)(ID));
+            this.Adapter.UpdateCommand.Parameters[4].Value = ((bool)(Resolved));
+            this.Adapter.UpdateCommand.Parameters[5].Value = ((int)(Original_ID));
+            this.Adapter.UpdateCommand.Parameters[6].Value = ((int)(Original_UserID));
+            this.Adapter.UpdateCommand.Parameters[7].Value = ((int)(Original_GameID));
+            this.Adapter.UpdateCommand.Parameters[8].Value = ((decimal)(Original_BetAmount));
+            this.Adapter.UpdateCommand.Parameters[9].Value = ((int)(Original_WinnerID));
+            this.Adapter.UpdateCommand.Parameters[10].Value = ((bool)(Original_Resolved));
+            this.Adapter.UpdateCommand.Parameters[11].Value = ((int)(ID));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -2497,8 +2569,8 @@ SELECT ID, UserID, GameID, BetAmount, WinnerID FROM dbo.tblBets WHERE (ID = @ID)
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(int UserID, int GameID, decimal BetAmount, int WinnerID, int Original_ID, int Original_UserID, int Original_GameID, decimal Original_BetAmount, int Original_WinnerID) {
-            return this.Update(UserID, GameID, BetAmount, WinnerID, Original_ID, Original_UserID, Original_GameID, Original_BetAmount, Original_WinnerID, Original_ID);
+        public virtual int Update(int UserID, int GameID, decimal BetAmount, int WinnerID, bool Resolved, int Original_ID, int Original_UserID, int Original_GameID, decimal Original_BetAmount, int Original_WinnerID, bool Original_Resolved) {
+            return this.Update(UserID, GameID, BetAmount, WinnerID, Resolved, Original_ID, Original_UserID, Original_GameID, Original_BetAmount, Original_WinnerID, Original_Resolved, Original_ID);
         }
     }
     
