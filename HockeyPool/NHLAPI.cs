@@ -27,6 +27,7 @@ namespace HockeyPool
         public int id { get; set; }
         public string name { get; set; }
         public string link { get; set; }
+        
     }
 
     public class Away
@@ -34,6 +35,7 @@ namespace HockeyPool
         public LeagueRecord leagueRecord { get; set; }
         public int score { get; set; }
         public Team team { get; set; }
+        public TeamStats teamStats { get; set; }
     }
 
     public class LeagueRecord2
@@ -55,6 +57,7 @@ namespace HockeyPool
         public LeagueRecord2 leagueRecord { get; set; }
         public int score { get; set; }
         public Team2 team { get; set; }
+        public TeamStats teamStats { get; set; }
     }
 
     public class Teams

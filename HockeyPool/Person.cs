@@ -11,13 +11,12 @@ namespace HockeyPool
         int id;
         string name;
         double balance;
-        List<Game> games;
-
+        
         public Person()
         {
             name = "";
             balance = 0;
-            games = null;
+        
         }
 
         public Person (String n, double b)

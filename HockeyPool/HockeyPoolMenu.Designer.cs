@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.cmd1Dollar = new System.Windows.Forms.Button();
             this.cmd2Dollar = new System.Windows.Forms.Button();
             this.cmd5Dollar = new System.Windows.Forms.Button();
@@ -36,14 +37,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tblUsersDataGridView = new System.Windows.Forms.DataGridView();
-            this.dtpSchedule = new System.Windows.Forms.DateTimePicker();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tblUsersBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.hockeyPoolDataSet = new HockeyPool.HockeyPoolDataSet();
+            this.dtpSchedule = new System.Windows.Forms.DateTimePicker();
             this.tblUsersTableAdapter = new HockeyPool.HockeyPoolDataSetTableAdapters.tblUsersTableAdapter();
             this.tableAdapterManager = new HockeyPool.HockeyPoolDataSetTableAdapters.TableAdapterManager();
             this.tblBetsTableAdapter = new HockeyPool.HockeyPoolDataSetTableAdapters.tblBetsTableAdapter();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridSchedule)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tblUsersDataGridView)).BeginInit();
@@ -130,28 +131,6 @@
             this.tblUsersDataGridView.Size = new System.Drawing.Size(248, 141);
             this.tblUsersDataGridView.TabIndex = 16;
             // 
-            // dtpSchedule
-            // 
-            this.dtpSchedule.Location = new System.Drawing.Point(209, 29);
-            this.dtpSchedule.Name = "dtpSchedule";
-            this.dtpSchedule.Size = new System.Drawing.Size(248, 20);
-            this.dtpSchedule.TabIndex = 14;
-            this.dtpSchedule.ValueChanged += new System.EventHandler(this.dtpSchedule_ValueChanged);
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.DataPropertyName = "username";
-            this.dataGridViewTextBoxColumn2.HeaderText = "Name";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            this.dataGridViewTextBoxColumn3.DataPropertyName = "balance";
-            this.dataGridViewTextBoxColumn3.HeaderText = "Balance";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            this.dataGridViewTextBoxColumn3.ReadOnly = true;
-            // 
             // tblUsersBindingSource
             // 
             this.tblUsersBindingSource.DataMember = "tblUsers";
@@ -161,6 +140,14 @@
             // 
             this.hockeyPoolDataSet.DataSetName = "HockeyPoolDataSet";
             this.hockeyPoolDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // dtpSchedule
+            // 
+            this.dtpSchedule.Location = new System.Drawing.Point(209, 29);
+            this.dtpSchedule.Name = "dtpSchedule";
+            this.dtpSchedule.Size = new System.Drawing.Size(248, 20);
+            this.dtpSchedule.TabIndex = 14;
+            this.dtpSchedule.ValueChanged += new System.EventHandler(this.dtpSchedule_ValueChanged);
             // 
             // tblUsersTableAdapter
             // 
@@ -177,6 +164,23 @@
             // tblBetsTableAdapter
             // 
             this.tblBetsTableAdapter.ClearBeforeFill = true;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.DataPropertyName = "username";
+            this.dataGridViewTextBoxColumn2.HeaderText = "Name";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.DataPropertyName = "balance";
+            dataGridViewCellStyle1.Format = "C2";
+            dataGridViewCellStyle1.NullValue = null;
+            this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle1;
+            this.dataGridViewTextBoxColumn3.HeaderText = "Balance";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.ReadOnly = true;
             // 
             // HockeyPoolMenu
             // 
@@ -215,8 +219,8 @@
         private HockeyPoolDataSetTableAdapters.tblUsersTableAdapter tblUsersTableAdapter;
         private HockeyPoolDataSetTableAdapters.TableAdapterManager tableAdapterManager;
         private System.Windows.Forms.DataGridView tblUsersDataGridView;
+        private HockeyPoolDataSetTableAdapters.tblBetsTableAdapter tblBetsTableAdapter;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private HockeyPoolDataSetTableAdapters.tblBetsTableAdapter tblBetsTableAdapter;
     }
 }

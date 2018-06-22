@@ -2364,16 +2364,8 @@ namespace HockeyPool.HockeyPoolDataSetTableAdapters {
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Resolved", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Resolved", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.InsertCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = "INSERT INTO [dbo].[tblBets] ([UserID], [GameID], [BetAmount], [WinnerID], [Resolv" +
-                "ed]) VALUES (@UserID, @GameID, @BetAmount, @WinnerID, @Resolved);\r\nSELECT ID, Us" +
-                "erID, GameID, BetAmount, WinnerID, Resolved FROM dbo.tblBets WHERE (ID = SCOPE_I" +
-                "DENTITY())";
+            this._adapter.InsertCommand.CommandText = "";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@UserID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "UserID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@GameID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "GameID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@BetAmount", global::System.Data.SqlDbType.Money, 0, global::System.Data.ParameterDirection.Input, 0, 0, "BetAmount", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@WinnerID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "WinnerID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Resolved", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Resolved", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
             this._adapter.UpdateCommand.CommandText = @"UPDATE [dbo].[tblBets] SET [UserID] = @UserID, [GameID] = @GameID, [BetAmount] = @BetAmount, [WinnerID] = @WinnerID, [Resolved] = @Resolved WHERE (([ID] = @Original_ID) AND ([UserID] = @Original_UserID) AND ([GameID] = @Original_GameID) AND ([BetAmount] = @Original_BetAmount) AND ([WinnerID] = @Original_WinnerID) AND ([Resolved] = @Original_Resolved));
@@ -2403,7 +2395,7 @@ SELECT ID, UserID, GameID, BetAmount, WinnerID, Resolved FROM dbo.tblBets WHERE 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[2];
+            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[4];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT ID, UserID, GameID, BetAmount, WinnerID, Resolved FROM dbo.tblBets";
@@ -2413,6 +2405,22 @@ SELECT ID, UserID, GameID, BetAmount, WinnerID, Resolved FROM dbo.tblBets WHERE 
             this._commandCollection[1].CommandText = "dbo.proc_GetUnresolvedBets";
             this._commandCollection[1].CommandType = global::System.Data.CommandType.StoredProcedure;
             this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@RETURN_VALUE", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.ReturnValue, 10, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[2] = new global::System.Data.SqlClient.SqlCommand();
+            this._commandCollection[2].Connection = this.Connection;
+            this._commandCollection[2].CommandText = "dbo.proc_CreateBet";
+            this._commandCollection[2].CommandType = global::System.Data.CommandType.StoredProcedure;
+            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@RETURN_VALUE", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.ReturnValue, 10, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@userID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 10, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@gameID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 10, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@betAmount", global::System.Data.SqlDbType.Money, 8, global::System.Data.ParameterDirection.Input, 19, 4, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@winnerID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 10, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[3] = new global::System.Data.SqlClient.SqlCommand();
+            this._commandCollection[3].Connection = this.Connection;
+            this._commandCollection[3].CommandText = "dbo.proc_ResolveBet";
+            this._commandCollection[3].CommandType = global::System.Data.CommandType.StoredProcedure;
+            this._commandCollection[3].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@RETURN_VALUE", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.ReturnValue, 10, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[3].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@betID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 10, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[3].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@winningTeamID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 10, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2510,12 +2518,7 @@ SELECT ID, UserID, GameID, BetAmount, WinnerID, Resolved FROM dbo.tblBets WHERE 
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(int UserID, int GameID, decimal BetAmount, int WinnerID, bool Resolved) {
-            this.Adapter.InsertCommand.Parameters[0].Value = ((int)(UserID));
-            this.Adapter.InsertCommand.Parameters[1].Value = ((int)(GameID));
-            this.Adapter.InsertCommand.Parameters[2].Value = ((decimal)(BetAmount));
-            this.Adapter.InsertCommand.Parameters[3].Value = ((int)(WinnerID));
-            this.Adapter.InsertCommand.Parameters[4].Value = ((bool)(Resolved));
+        public virtual int Insert() {
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -2571,6 +2574,86 @@ SELECT ID, UserID, GameID, BetAmount, WinnerID, Resolved FROM dbo.tblBets WHERE 
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
         public virtual int Update(int UserID, int GameID, decimal BetAmount, int WinnerID, bool Resolved, int Original_ID, int Original_UserID, int Original_GameID, decimal Original_BetAmount, int Original_WinnerID, bool Original_Resolved) {
             return this.Update(UserID, GameID, BetAmount, WinnerID, Resolved, Original_ID, Original_UserID, Original_GameID, Original_BetAmount, Original_WinnerID, Original_Resolved, Original_ID);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int InsertBet(global::System.Nullable<int> userID, global::System.Nullable<int> gameID, global::System.Nullable<decimal> betAmount, global::System.Nullable<int> winnerID) {
+            global::System.Data.SqlClient.SqlCommand command = this.CommandCollection[2];
+            if ((userID.HasValue == true)) {
+                command.Parameters[1].Value = ((int)(userID.Value));
+            }
+            else {
+                command.Parameters[1].Value = global::System.DBNull.Value;
+            }
+            if ((gameID.HasValue == true)) {
+                command.Parameters[2].Value = ((int)(gameID.Value));
+            }
+            else {
+                command.Parameters[2].Value = global::System.DBNull.Value;
+            }
+            if ((betAmount.HasValue == true)) {
+                command.Parameters[3].Value = ((decimal)(betAmount.Value));
+            }
+            else {
+                command.Parameters[3].Value = global::System.DBNull.Value;
+            }
+            if ((winnerID.HasValue == true)) {
+                command.Parameters[4].Value = ((int)(winnerID.Value));
+            }
+            else {
+                command.Parameters[4].Value = global::System.DBNull.Value;
+            }
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            int returnValue;
+            try {
+                returnValue = command.ExecuteNonQuery();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int ResolveBet(global::System.Nullable<int> betID, global::System.Nullable<int> winningTeamID) {
+            global::System.Data.SqlClient.SqlCommand command = this.CommandCollection[3];
+            if ((betID.HasValue == true)) {
+                command.Parameters[1].Value = ((int)(betID.Value));
+            }
+            else {
+                command.Parameters[1].Value = global::System.DBNull.Value;
+            }
+            if ((winningTeamID.HasValue == true)) {
+                command.Parameters[2].Value = ((int)(winningTeamID.Value));
+            }
+            else {
+                command.Parameters[2].Value = global::System.DBNull.Value;
+            }
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            int returnValue;
+            try {
+                returnValue = command.ExecuteNonQuery();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            return returnValue;
         }
     }
     

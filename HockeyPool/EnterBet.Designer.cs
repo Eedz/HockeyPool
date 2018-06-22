@@ -33,6 +33,7 @@
             this.cmdHomeTeam = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.lblBetAmount = new System.Windows.Forms.Label();
+            this.tblBetsTableAdapter = new HockeyPool.HockeyPoolDataSetTableAdapters.tblBetsTableAdapter();
             this.SuspendLayout();
             // 
             // lblTitle
@@ -85,6 +86,10 @@
             this.lblBetAmount.TabIndex = 7;
             this.lblBetAmount.Text = "$ Bet";
             // 
+            // tblBetsTableAdapter
+            // 
+            this.tblBetsTableAdapter.ClearBeforeFill = true;
+            // 
             // EnterBet
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -109,5 +114,6 @@
         private System.Windows.Forms.Button cmdHomeTeam;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblBetAmount;
+        private HockeyPoolDataSetTableAdapters.tblBetsTableAdapter tblBetsTableAdapter;
     }
 }

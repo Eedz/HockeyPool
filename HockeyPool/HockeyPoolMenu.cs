@@ -26,6 +26,7 @@ namespace HockeyPool
         {
             InitializeComponent();
             ResolveBets();
+            
             todayGames = new List<HockeyPoolGame>();
 
             currentUser = DBUtilities.GetUser(user);
@@ -36,7 +37,7 @@ namespace HockeyPool
         private void HockeyPoolMenu_Load(object sender, EventArgs e)
         {
             // fill the leader board
-            this.tblUsersTableAdapter.Fill(this.hockeyPoolDataSet.tblUsers);
+            //this.tblUsersTableAdapter.Fill(this.hockeyPoolDataSet.tblUsers);
 
             // get today's games
             LoadGames(DateTime.Today.ToString("yyyy-MM-dd"));
@@ -56,7 +57,7 @@ namespace HockeyPool
                 return;
             }
             if (p.totalGames == 0 ){
-                MessageBox.Show("No games scheduled for " + d);
+                //MessageBox.Show("No games scheduled for " + d);
                 
                 return;
             }
@@ -131,12 +132,12 @@ namespace HockeyPool
         {
             DateTimePicker dtp = sender as DateTimePicker;
             LoadGames(dtp.Value.ToString("yyyy-MM-dd"));
-            if (dtp.Value < DateTime.Today)
-            {
-                cmd1Dollar.Enabled = false;
-                cmd2Dollar.Enabled = false;
-                cmd5Dollar.Enabled = false;
-            }
+            //if (dtp.Value < DateTime.Today)
+            //{
+            //    cmd1Dollar.Enabled = false;
+            //    cmd2Dollar.Enabled = false;
+            //    cmd5Dollar.Enabled = false;
+            //}
 
         }
 
@@ -178,23 +179,33 @@ namespace HockeyPool
         {
             // get unresolved bets
             DataTable bets;
-            Date gameDate;
-
+       
+            int homeScore, awayScore;
+            int winningTeam;
             bets = tblBetsTableAdapter.GetDataByUnresolved();
-
+            
             foreach (DataRow r in bets.Rows)
             {
                 p = await hapi.GetGameResult(r["gameID"].ToString());
-               
+
+                homeScore = p.teams.home.teamStats.teamSkaterStats.goals;
+                awayScore = p.teams.away.teamStats.teamSkaterStats.goals;
+
+                // first check if there is any score, if not, the game has not been played yet
+                if (homeScore == 0 && awayScore == 0)
+                    continue;
+
+                if (homeScore > awayScore)
+                    winningTeam = p.teams.home.team.id;
+                else
+                    winningTeam = p.teams.away.team.id;
+
+                if (winningTeam != 0 )
+                    tblBetsTableAdapter.ResolveBet((int)r["ID"], winningTeam);
             }
 
-            // for each unique game ID, get the game object, and if it is from before today's date, keep it, otherwise discard it
-            
-            
 
-
-            // for each bet, compare the bet's winning team to the game's winning team
-            
+            this.tblUsersTableAdapter.Fill(this.hockeyPoolDataSet.tblUsers);
 
         }
        
