@@ -41,12 +41,16 @@ namespace HockeyPool
 
         private void cmdAwayTeam_Click(object sender, EventArgs e)
         {
-            tblBetsTableAdapter.InsertBet(userID, currentGame.GameID, betAmount, currentGame.AwayTeamID);
+            
+            //tblBetsTableAdapter.InsertBet(userID, currentGame.GameID, betAmount, currentGame.AwayTeamID);
+            this.Close();
         }
 
         private void cmdHomeTeam_Click(object sender, EventArgs e)
         {
-            tblBetsTableAdapter.InsertBet(userID, currentGame.GameID, betAmount, currentGame.HomeTeamID);
+
+           // tblBetsTableAdapter.InsertBet(userID, currentGame.GameID, betAmount, currentGame.HomeTeamID);
+            this.Close();
         }
     }
 }

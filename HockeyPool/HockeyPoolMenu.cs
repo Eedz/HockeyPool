@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace HockeyPool
 {
     public partial class HockeyPoolMenu : Form
@@ -30,8 +31,52 @@ namespace HockeyPool
             todayGames = new List<HockeyPoolGame>();
 
             currentUser = DBUtilities.GetUser(user);
+
+            dataGridBets.ColumnCount = 10;
+            
+            for(int r = 0; r < 10; r++)
+            {
+                DataGridViewRow row = new DataGridViewRow();
+                
+                for (int c = 0; c < 10; c++)
+                {
+                    row.Cells.Add(new DataGridViewTextBoxCell()
+                    {
+                        Value = ""
+                    });
+                                            
+                    dataGridBets.Columns[c].HeaderText = c.ToString();
+                    
+                }
+                dataGridBets.Rows.Add(row);
+                dataGridBets.Rows[r].HeaderCell.Value = r.ToString();
+            }
+
+            dataGridBets.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
             
             
+        }
+
+        private void navBetsBindingSource_PositionChanged(object sender, EventArgs e)
+        {
+            BindingSource bs = (BindingSource)sender;
+            BettingSquares squares = (BettingSquares)bs.Current;
+
+            updateBetGrid(squares);
+        }
+
+        private void updateBetGrid(BettingSquares squares)
+        {
+            for (int home = 0; home < 10; home++)
+            {
+                for (int away = 0; away < 10; away++)
+                {
+                    //dataGridBets.Rows[home].Cells[away].Value = DBUtilities.GetUserName(squares.GetSquareUser(home, away));
+                    dataGridBets.Rows[home].Cells[away].Value = squares.GetSquareUser(home, away);
+                }
+            }
+
+            dataGridBets.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
         }
 
         private void HockeyPoolMenu_Load(object sender, EventArgs e)
@@ -39,9 +84,15 @@ namespace HockeyPool
             // fill the leader board
             //this.tblUsersTableAdapter.Fill(this.hockeyPoolDataSet.tblUsers);
 
+            
+
             // get today's games
             LoadGames(DateTime.Today.ToString("yyyy-MM-dd"));
-          
+
+            //updateBetGrid((BettingSquares)navBets.BindingSource.Current);
+
+
+
             cmd1Dollar.Focus();
         }
 
@@ -78,7 +129,28 @@ namespace HockeyPool
             }
             
             dataGridSchedule.DataSource = todayGames;
+
+            LoadBets();
         }
+
+        private void LoadBets()
+        {
+            List<BettingSquares> squares = new List<BettingSquares>();
+
+            foreach (HockeyPoolGame g in todayGames)
+            {
+                BettingSquares bs = DBUtilities.GetGameBets(g.GameID);
+
+                squares.Add(bs);
+                
+
+            }
+            BindingSource binder = new BindingSource(squares, "");
+            navBets.BindingSource = binder;
+            navBets.BindingSource.PositionChanged += navBetsBindingSource_PositionChanged;
+        }
+
+
 
         private async Task<NHLAPI> LoadTeams()
         {
@@ -98,32 +170,90 @@ namespace HockeyPool
             return p;
         }
 
+        
+
+        /// <summary>
+        /// Enter a bet by assigning a random score to the current user.
+        /// </summary>
+        /// <param name="amount"></param>
+        /// <returns></returns>
+        private int EnterBet(int amount)
+        {
+            
+            if (dataGridSchedule.CurrentRow == null)
+                return 1;
+
+            HockeyPoolGame g = (HockeyPoolGame)dataGridSchedule.CurrentRow.DataBoundItem;
+            BettingSquares squares;
+
+            squares = DBUtilities.GetGameBets(g.GameID);
+
+            if (squares.SquaresFull())
+            {
+                MessageBox.Show("No more bets available for this game.");
+                return 1;
+            }
+
+
+            int home, away;
+            do
+            {
+                RandomScore(out home, out away);
+            } while (!squares.IsSquareAvailable(home, away));
+
+            // we have a score and a bet, now record the bet
+            int betResult = DBUtilities.EnterBet(currentUser.ID, 1, g.GameID, home, away);
+
+            return betResult;
+        }
+
+        /// <summary>
+        /// Get a random score by generating 2 unique random integers between 0 and 9.
+        /// </summary>
+        /// <param name="home"></param>
+        /// <param name="away"></param>
+        private void RandomScore(out int home, out int away)
+        {
+            Random r = new Random();
+
+            home = r.Next(0, 9);
+            away = r.Next(0, 9);
+
+            while (home == away)
+            {
+                away = r.Next(0, 9);
+            }
+        }
+
         private void cmd1Dollar_Click(object sender, EventArgs e)
         {
-            Form frmBet;
-            HockeyPoolGame g = (HockeyPoolGame) dataGridSchedule.CurrentRow.DataBoundItem;
-
-            frmBet = new EnterBet(1, g, currentUser.ID);
-            
-            frmBet.Show();
+            EnterBet(1);
         }
 
         private void cmd2Dollar_Click(object sender, EventArgs e)
         {
-            Form frmBet;
-            HockeyPoolGame g = (HockeyPoolGame)dataGridSchedule.CurrentRow.DataBoundItem;
-
-            frmBet = new EnterBet(2, g, currentUser.ID);
-
-            frmBet.Show();
+            EnterBet(2);
         }
 
         private void cmd5Dollar_Click(object sender, EventArgs e)
         {
+            EnterBet(5);
+        }
+
+        /// <summary>
+        /// Enter a bet for a specific winning team.
+        /// </summary>
+        /// <param name="amount"></param>
+        private void EnterBetWinningTeam(int amount)
+        {
+
+            if (dataGridSchedule.CurrentRow == null)
+                return;
+
             Form frmBet;
             HockeyPoolGame g = (HockeyPoolGame)dataGridSchedule.CurrentRow.DataBoundItem;
 
-            frmBet = new EnterBet(5, g, currentUser.ID);
+            frmBet = new EnterBet(amount, g, currentUser.ID);
 
             frmBet.Show();
         }
@@ -132,6 +262,8 @@ namespace HockeyPool
         {
             DateTimePicker dtp = sender as DateTimePicker;
             LoadGames(dtp.Value.ToString("yyyy-MM-dd"));
+          
+            // TODO FOR TESTING
             //if (dtp.Value < DateTime.Today)
             //{
             //    cmd1Dollar.Enabled = false;
@@ -174,14 +306,14 @@ namespace HockeyPool
         }
 
 
-
+     
         private async void ResolveBets()
         {
             // get unresolved bets
             DataTable bets;
        
             int homeScore, awayScore;
-            int winningTeam;
+
             bets = tblBetsTableAdapter.GetDataByUnresolved();
             
             foreach (DataRow r in bets.Rows)
@@ -195,13 +327,8 @@ namespace HockeyPool
                 if (homeScore == 0 && awayScore == 0)
                     continue;
 
-                if (homeScore > awayScore)
-                    winningTeam = p.teams.home.team.id;
-                else
-                    winningTeam = p.teams.away.team.id;
-
-                if (winningTeam != 0 )
-                    tblBetsTableAdapter.ResolveBet((int)r["ID"], winningTeam);
+                
+                DBUtilities.ResolveBet((int)r["ID"], homeScore, awayScore);
             }
 
 
