@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HockeyPoolMenu));
             this.cmd1Dollar = new System.Windows.Forms.Button();
             this.cmd2Dollar = new System.Windows.Forms.Button();
@@ -62,6 +62,8 @@
             this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.dataGridBets = new System.Windows.Forms.DataGridView();
             this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridSchedule)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tblUsersDataGridView)).BeginInit();
@@ -162,9 +164,9 @@
             // dataGridViewTextBoxColumn3
             // 
             this.dataGridViewTextBoxColumn3.DataPropertyName = "balance";
-            dataGridViewCellStyle4.Format = "C2";
-            dataGridViewCellStyle4.NullValue = null;
-            this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Format = "C2";
+            dataGridViewCellStyle2.NullValue = null;
+            this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridViewTextBoxColumn3.HeaderText = "Balance";
             this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
             this.dataGridViewTextBoxColumn3.ReadOnly = true;
@@ -235,12 +237,14 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.label7);
+            this.panel2.Controls.Add(this.label6);
             this.panel2.Controls.Add(this.navBets);
             this.panel2.Controls.Add(this.dataGridBets);
             this.panel2.Controls.Add(this.label5);
             this.panel2.Location = new System.Drawing.Point(465, 289);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(468, 310);
+            this.panel2.Size = new System.Drawing.Size(505, 338);
             this.panel2.TabIndex = 19;
             // 
             // navBets
@@ -265,7 +269,7 @@
             this.navBets.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
             this.navBets.Name = "navBets";
             this.navBets.PositionItem = this.bindingNavigatorPositionItem;
-            this.navBets.Size = new System.Drawing.Size(468, 25);
+            this.navBets.Size = new System.Drawing.Size(505, 25);
             this.navBets.TabIndex = 21;
             this.navBets.Text = "bindingNavigator1";
             // 
@@ -341,7 +345,7 @@
             this.dataGridBets.AllowUserToAddRows = false;
             this.dataGridBets.AllowUserToDeleteRows = false;
             this.dataGridBets.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridBets.Location = new System.Drawing.Point(15, 35);
+            this.dataGridBets.Location = new System.Drawing.Point(52, 65);
             this.dataGridBets.Name = "dataGridBets";
             this.dataGridBets.ReadOnly = true;
             this.dataGridBets.Size = new System.Drawing.Size(440, 261);
@@ -357,11 +361,29 @@
             this.label5.TabIndex = 19;
             this.label5.Text = "Active Bets";
             // 
+            // label6
+            // 
+            this.label6.Location = new System.Drawing.Point(52, 47);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(440, 15);
+            this.label6.TabIndex = 22;
+            this.label6.Text = "AWAY";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(7, 183);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(39, 13);
+            this.label7.TabIndex = 23;
+            this.label7.Text = "HOME";
+            // 
             // HockeyPoolMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(962, 597);
+            this.ClientSize = new System.Drawing.Size(973, 628);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -424,5 +446,7 @@
         private System.Windows.Forms.ToolStripButton bindingNavigatorMoveNextItem;
         private System.Windows.Forms.ToolStripButton bindingNavigatorMoveLastItem;
         private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator2;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
     }
 }

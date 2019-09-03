@@ -227,17 +227,20 @@ namespace HockeyPool
 
         private void cmd1Dollar_Click(object sender, EventArgs e)
         {
-            EnterBet(1);
+            if (EnterBet(1) ==1)
+                MessageBox.Show("You have already bet on this game!");
         }
 
         private void cmd2Dollar_Click(object sender, EventArgs e)
         {
-            EnterBet(2);
+            if (EnterBet(2) == 1)
+                MessageBox.Show("You have already bet on this game!");
         }
 
         private void cmd5Dollar_Click(object sender, EventArgs e)
         {
-            EnterBet(5);
+            if (EnterBet(5) == 1)
+                MessageBox.Show("You have already bet on this game!");
         }
 
         /// <summary>
