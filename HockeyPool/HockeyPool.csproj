@@ -67,6 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BetLine.cs" />
     <Compile Include="BettingSquares.cs" />
     <Compile Include="DBUtilities.cs" />
     <Compile Include="HockeyPoolDataSet.Designer.cs">

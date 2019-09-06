@@ -101,6 +101,32 @@ namespace HockeyPool
             return product;
         }
 
+        public async Task<NHLAPI> GetSchedule(int teamID, string d)
+        {
+            NHLAPI product = null;
+
+            try
+            {
+
+                HttpResponseMessage response = await client.GetAsync("schedule?teamId=" + teamID + "&startDate=" + d + "&endDate=" + d).ConfigureAwait(false);
+                if (response.IsSuccessStatusCode)
+                {
+                    product = await response.Content.ReadAsAsync<NHLAPI>();
+                }
+
+                else
+                {
+                    return null;
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return product;
+        }
+
         public async Task<NHLAPI> GetGameResult(string gameID)
         {
             NHLAPI product = null;

@@ -142,9 +142,12 @@ namespace HockeyPool
                     cmd.Parameters.AddWithValue("@username", username);
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        reader.Read();
-                        result.ID = (int)reader["ID"];
-                        result.Name = (string)reader["username"];
+                        while (reader.Read())
+                        {
+                           
+                            result.ID = (int)reader["ID"];
+                            result.Name = (string)reader["username"];
+                        }
                     }
                     
                     
@@ -152,6 +155,61 @@ namespace HockeyPool
                 }
             }
             return result;
+        }
+
+        public static List<HockeyPoolGame> GetUnresolvedGames()
+        {
+            List<HockeyPoolGame> result = new List<HockeyPoolGame>();
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["HockeyPoolConnectionString"].ConnectionString))
+            {
+                conn.Open();
+                using (SqlCommand cmd = new SqlCommand("SELECT GameID FROM tblBets WHERE Resolved = 0 GROUP BY GameID", conn))
+                {
+                    
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            HockeyPoolGame g = new HockeyPoolGame();
+                            g.GameID = (int)reader["GameID"];
+                            result.Add(g);
+                        }
+                    }
+
+
+
+                }
+            }
+            return result;
+        }
+
+        public static void AddToPool(HockeyPoolGame g)
+        {
+
+            using (SqlDataAdapter sql = new SqlDataAdapter())
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["HockeyPoolConnectionString"].ConnectionString))
+            {
+                conn.Open();
+
+                sql.InsertCommand = new SqlCommand("proc_AddToPool(@gameID)", conn)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+
+                sql.InsertCommand.Parameters.AddWithValue("@gameID", g.GameID);
+
+                try
+                {
+                    sql.InsertCommand.ExecuteNonQuery();
+                }
+                catch (Exception)
+                {
+
+                }
+
+            }
+            
         }
 
     }

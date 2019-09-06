@@ -16,11 +16,14 @@ namespace HockeyPool
         NHLAPI p;
         HockeyAPI hapi = new HockeyAPI();
         List<HockeyPoolGame> todayGames;
+        List<BetLine> todayBets;
         Person currentUser; // get user from login form
+        List<Person> AllUsers;
         public HockeyPoolMenu()
         {
             InitializeComponent();
             todayGames = new List<HockeyPoolGame>();
+            todayBets = new List<BetLine>();
         }
 
         public HockeyPoolMenu(string user)
@@ -29,76 +32,30 @@ namespace HockeyPool
             ResolveBets();
             
             todayGames = new List<HockeyPoolGame>();
+            todayBets = new List<BetLine>();
+            AllUsers = new List<Person>();
 
             currentUser = DBUtilities.GetUser(user);
-
-            dataGridBets.ColumnCount = 10;
-            
-            for(int r = 0; r < 10; r++)
-            {
-                DataGridViewRow row = new DataGridViewRow();
-                
-                for (int c = 0; c < 10; c++)
-                {
-                    row.Cells.Add(new DataGridViewTextBoxCell()
-                    {
-                        Value = ""
-                    });
-                                            
-                    dataGridBets.Columns[c].HeaderText = c.ToString();
-                    
-                }
-                dataGridBets.Rows.Add(row);
-                dataGridBets.Rows[r].HeaderCell.Value = r.ToString();
-            }
-
-            dataGridBets.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
-            
             
         }
 
-        private void navBetsBindingSource_PositionChanged(object sender, EventArgs e)
+        
+
+        private async void HockeyPoolMenu_Load(object sender, EventArgs e)
         {
-            BindingSource bs = (BindingSource)sender;
-            BettingSquares squares = (BettingSquares)bs.Current;
-
-            updateBetGrid(squares);
-        }
-
-        private void updateBetGrid(BettingSquares squares)
-        {
-            for (int home = 0; home < 10; home++)
-            {
-                for (int away = 0; away < 10; away++)
-                {
-                    //dataGridBets.Rows[home].Cells[away].Value = DBUtilities.GetUserName(squares.GetSquareUser(home, away));
-                    dataGridBets.Rows[home].Cells[away].Value = squares.GetSquareUser(home, away);
-                }
-            }
-
-            dataGridBets.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
-        }
-
-        private void HockeyPoolMenu_Load(object sender, EventArgs e)
-        {
-            // fill the leader board
-            //this.tblUsersTableAdapter.Fill(this.hockeyPoolDataSet.tblUsers);
-
-            
+                       
 
             // get today's games
-            LoadGames(DateTime.Today.ToString("yyyy-MM-dd"));
-
-            //updateBetGrid((BettingSquares)navBets.BindingSource.Current);
-
-
+            await LoadGames(DateTime.Today.ToString("yyyy-MM-dd"));
+            // get today's bets
+            LoadBets(DateTime.Today.ToString("yyyy-MM-dd"));
 
             cmd1Dollar.Focus();
         }
 
-        private async void LoadGames(string d)
+        private async Task LoadGames(string d)
         {
-            p = await GetSchedule(d);
+            p = await GetSchedule(10,d);
             todayGames.Clear();
             dataGridSchedule.DataSource = null;
             if (p == null)
@@ -129,14 +86,17 @@ namespace HockeyPool
             }
             
             dataGridSchedule.DataSource = todayGames;
-
-            LoadBets();
         }
 
-        private void LoadBets()
-        {
-            List<BettingSquares> squares = new List<BettingSquares>();
+        
 
+        private void LoadBets(string d)
+        {
+
+            todayBets.Clear();
+
+            List<BettingSquares> squares = new List<BettingSquares>();
+            
             foreach (HockeyPoolGame g in todayGames)
             {
                 BettingSquares bs = DBUtilities.GetGameBets(g.GameID);
@@ -145,9 +105,33 @@ namespace HockeyPool
                 
 
             }
-            BindingSource binder = new BindingSource(squares, "");
-            navBets.BindingSource = binder;
-            navBets.BindingSource.PositionChanged += navBetsBindingSource_PositionChanged;
+            
+            foreach (BettingSquares bs in squares)
+            {
+
+                for (int i = 0; i < 10; i++)
+                {
+                    for (int j = 0;j < 10; j++)
+                    {
+                        if (bs.Squares[i,j] != null)
+                        {
+                            // create a bet line for each bet in the squares
+                            BetLine b = new BetLine();
+                            b.Name = DBUtilities.GetUserName(bs.Squares[i, j].userid);
+                            b.HomeScore = i;
+                            b.AwayScore = j;
+                            todayBets.Add(b);
+                        }
+                    }
+                    
+                }
+                
+
+            }
+
+            dataGridBets.DataSource = null;
+            dataGridBets.DataSource = todayBets;
+           
         }
 
 
@@ -170,7 +154,13 @@ namespace HockeyPool
             return p;
         }
 
-        
+        private async Task<NHLAPI> GetSchedule(int t, string d)
+        {
+            p = await hapi.GetSchedule(t, d);
+            return p;
+        }
+
+
 
         /// <summary>
         /// Enter a bet by assigning a random score to the current user.
@@ -225,19 +215,27 @@ namespace HockeyPool
             }
         }
 
-        private void cmd1Dollar_Click(object sender, EventArgs e)
+        private async void cmd1Dollar_Click(object sender, EventArgs e)
         {
             EnterBet(1);
+
+            await UpdateDate(dtpSchedule);
         }
 
-        private void cmd2Dollar_Click(object sender, EventArgs e)
+        private async void cmd2Dollar_Click(object sender, EventArgs e)
         {
-            EnterBet(2);
+            for (int i = 0; i < 2; i ++)
+                EnterBet(1);
+
+            await UpdateDate(dtpSchedule);
         }
 
-        private void cmd5Dollar_Click(object sender, EventArgs e)
+        private async void cmd5Dollar_Click(object sender, EventArgs e)
         {
-            EnterBet(5);
+            for (int i = 0; i < 5; i++)
+                EnterBet(1);
+
+            await UpdateDate(dtpSchedule);
         }
 
         /// <summary>
@@ -258,19 +256,25 @@ namespace HockeyPool
             frmBet.Show();
         }
 
-        private void dtpSchedule_ValueChanged(object sender, EventArgs e)
+        private async void dtpSchedule_ValueChanged(object sender, EventArgs e)
         {
             DateTimePicker dtp = sender as DateTimePicker;
-            LoadGames(dtp.Value.ToString("yyyy-MM-dd"));
-          
-            // TODO FOR TESTING
-            //if (dtp.Value < DateTime.Today)
-            //{
-            //    cmd1Dollar.Enabled = false;
-            //    cmd2Dollar.Enabled = false;
-            //    cmd5Dollar.Enabled = false;
-            //}
+            await UpdateDate(dtp);
+            
+            #if RELEASE 
+            if (dtp.Value < DateTime.Today)
+            {
+                cmd1Dollar.Enabled = false;
+                cmd2Dollar.Enabled = false;
+                cmd5Dollar.Enabled = false;
+            }
+            #endif 
+        }
 
+        private async Task UpdateDate(DateTimePicker d)
+        {
+            await LoadGames(d.Value.ToString("yyyy-MM-dd"));
+            LoadBets(d.Value.ToString("yyyy-MM-dd"));
         }
 
         /// <summary>
@@ -314,6 +318,15 @@ namespace HockeyPool
        
             int homeScore, awayScore;
 
+            List<HockeyPoolGame> unresolvedGames;
+            unresolvedGames = DBUtilities.GetUnresolvedGames();
+            
+            foreach (HockeyPoolGame g in unresolvedGames)
+            {
+                if (!HasWinner(g))
+                    DBUtilities.AddToPool(g);
+            }
+
             bets = tblBetsTableAdapter.GetDataByUnresolved();
             
             foreach (DataRow r in bets.Rows)
@@ -329,12 +342,31 @@ namespace HockeyPool
 
                 
                 DBUtilities.ResolveBet((int)r["ID"], homeScore, awayScore);
+
             }
+
 
 
             this.tblUsersTableAdapter.Fill(this.hockeyPoolDataSet.tblUsers);
 
         }
-       
+
+        private bool HasWinner(HockeyPoolGame g)
+        {
+            List<BettingSquares> squares = new List<BettingSquares>();
+          
+            BettingSquares bs = DBUtilities.GetGameBets(g.GameID);
+
+            squares.Add(bs);
+
+            foreach (BettingSquares s in squares)
+            {
+
+            }
+
+            return false;
+        }
+
+        
     }
 }

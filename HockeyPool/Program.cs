@@ -16,8 +16,8 @@ namespace HockeyPool
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new HockeyPoolMenu());
 
+#if RELEASE
             HockeyPoolLogin login = new HockeyPoolLogin();
             switch (login.ShowDialog()) 
             {
@@ -34,7 +34,9 @@ namespace HockeyPool
                     MessageBox.Show("Unsuccessful login attempt.");
                     break;
             }
-            
+#else
+            Application.Run(new HockeyPoolMenu("Eddie"));
+#endif
         }
     }
 }
