@@ -191,7 +191,7 @@ namespace HockeyPool
             {
                 conn.Open();
 
-                sql.InsertCommand = new SqlCommand("proc_AddToPool(@gameID)", conn)
+                sql.InsertCommand = new SqlCommand("proc_AddToPool", conn)
                 {
                     CommandType = CommandType.StoredProcedure
                 };
@@ -205,11 +205,41 @@ namespace HockeyPool
                 }
                 catch (Exception)
                 {
-
+                    int i = 0;
                 }
 
             }
             
+        }
+
+        public static void AddToBalance(Person p, int amount)
+        {
+
+            using (SqlDataAdapter sql = new SqlDataAdapter())
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["HockeyPoolConnectionString"].ConnectionString))
+            {
+                conn.Open();
+
+                sql.InsertCommand = new SqlCommand("proc_AddBalance", conn)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+
+                sql.InsertCommand.Parameters.AddWithValue("@userID", p.ID);
+                sql.InsertCommand.Parameters.AddWithValue("@amount", amount);
+
+                try
+                {
+                    sql.InsertCommand.ExecuteNonQuery();
+                }
+                catch (Exception)
+                {
+                    int i = 0;
+                }
+
+            }
+
         }
 
     }

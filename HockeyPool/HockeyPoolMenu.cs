@@ -53,6 +53,117 @@ namespace HockeyPool
             cmd1Dollar.Focus();
         }
 
+        #region Button Events
+        private async void cmd1Dollar_Click(object sender, EventArgs e)
+        {
+            EnterBet(1);
+            UpdateLeaderboard();
+
+            await UpdateDate(dtpSchedule);
+        }
+
+        private async void cmd2Dollar_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < 2; i++)
+                EnterBet(1);
+            UpdateLeaderboard();
+
+            await UpdateDate(dtpSchedule);
+        }
+
+        private async void cmd5Dollar_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < 5; i++)
+                EnterBet(1);
+            UpdateLeaderboard();
+
+            await UpdateDate(dtpSchedule);
+        }
+
+        private void cmdAddMoney_Click(object sender, EventArgs e)
+        {
+            InputBox newAmount = new InputBox("Enter Balance:", "Add Balance");
+
+            newAmount.ShowDialog();
+            string input = newAmount.userInput;
+            if (string.IsNullOrEmpty(input))
+                return;
+
+            int balance = Convert.ToInt32(input);
+
+            DBUtilities.AddToBalance(currentUser, balance);
+
+            UpdateLeaderboard();
+        }
+
+        #endregion
+
+        #region Grid Events
+
+        private async void dtpSchedule_ValueChanged(object sender, EventArgs e)
+        {
+            DateTimePicker dtp = sender as DateTimePicker;
+            await UpdateDate(dtp);
+
+#if RELEASE
+            if (dtp.Value < DateTime.Today)
+            {
+                cmd1Dollar.Enabled = false;
+                cmd2Dollar.Enabled = false;
+                cmd5Dollar.Enabled = false;
+            }
+#endif
+        }
+
+        /// <summary>
+        /// Remove extra columns and add spaces to shown columns.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dataGridSchedule_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            string col;
+            List<string> toRemove = new List<string>();
+            for (int i = 0; i < dataGridSchedule.ColumnCount; i++)
+            {
+                col = dataGridSchedule.Columns[i].Name;
+                switch (col)
+                {
+                    case "HomeTeam":
+                        dataGridSchedule.Columns[i].Name = "Home Team";
+                        break;
+                    case "AwayTeam":
+                        dataGridSchedule.Columns[i].Name = "Away Team";
+                        break;
+                    default:
+                        toRemove.Add(col);
+                        break;
+                }
+            }
+            foreach (string s in toRemove)
+            {
+                dataGridSchedule.Columns.Remove(s);
+            }
+            dataGridSchedule.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+        }
+
+        #endregion
+
+        #region Update Form 
+        private async Task UpdateDate(DateTimePicker d)
+        {
+            await LoadGames(d.Value.ToString("yyyy-MM-dd"));
+            LoadBets(d.Value.ToString("yyyy-MM-dd"));
+
+        }
+
+        private void UpdateLeaderboard()
+        {
+            tblUsersTableAdapter.ClearBeforeFill = true;
+            tblUsersTableAdapter.Fill(hockeyPoolDataSet.tblUsers);
+        }
+        #endregion
+
         private async Task LoadGames(string d)
         {
             p = await GetSchedule(10,d);
@@ -87,8 +198,6 @@ namespace HockeyPool
             
             dataGridSchedule.DataSource = todayGames;
         }
-
-        
 
         private void LoadBets(string d)
         {
@@ -133,8 +242,6 @@ namespace HockeyPool
             dataGridBets.DataSource = todayBets;
            
         }
-
-
 
         private async Task<NHLAPI> LoadTeams()
         {
@@ -215,28 +322,9 @@ namespace HockeyPool
             }
         }
 
-        private async void cmd1Dollar_Click(object sender, EventArgs e)
-        {
-            EnterBet(1);
+        
 
-            await UpdateDate(dtpSchedule);
-        }
-
-        private async void cmd2Dollar_Click(object sender, EventArgs e)
-        {
-            for (int i = 0; i < 2; i ++)
-                EnterBet(1);
-
-            await UpdateDate(dtpSchedule);
-        }
-
-        private async void cmd5Dollar_Click(object sender, EventArgs e)
-        {
-            for (int i = 0; i < 5; i++)
-                EnterBet(1);
-
-            await UpdateDate(dtpSchedule);
-        }
+        
 
         /// <summary>
         /// Enter a bet for a specific winning team.
@@ -256,59 +344,9 @@ namespace HockeyPool
             frmBet.Show();
         }
 
-        private async void dtpSchedule_ValueChanged(object sender, EventArgs e)
-        {
-            DateTimePicker dtp = sender as DateTimePicker;
-            await UpdateDate(dtp);
-            
-            #if RELEASE 
-            if (dtp.Value < DateTime.Today)
-            {
-                cmd1Dollar.Enabled = false;
-                cmd2Dollar.Enabled = false;
-                cmd5Dollar.Enabled = false;
-            }
-            #endif 
-        }
+        
 
-        private async Task UpdateDate(DateTimePicker d)
-        {
-            await LoadGames(d.Value.ToString("yyyy-MM-dd"));
-            LoadBets(d.Value.ToString("yyyy-MM-dd"));
-        }
-
-        /// <summary>
-        /// Remove extra columns and add spaces to shown columns.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void dataGridSchedule_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
-        {
-            string col;
-            List<string> toRemove = new List<string>();
-            for (int i = 0; i < dataGridSchedule.ColumnCount; i++)
-            {
-                col = dataGridSchedule.Columns[i].Name;
-                switch (col)
-                {
-                    case "HomeTeam":
-                        dataGridSchedule.Columns[i].Name = "Home Team";
-                        break;
-                    case "AwayTeam":
-                        dataGridSchedule.Columns[i].Name = "Away Team";
-                        break;
-                    default:
-                        toRemove.Add(col);
-                        break;
-                }
-            }
-            foreach (string s in toRemove)
-            {
-                dataGridSchedule.Columns.Remove(s);
-            }
-            dataGridSchedule.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-        }
-
+        
 
      
         private async void ResolveBets()
