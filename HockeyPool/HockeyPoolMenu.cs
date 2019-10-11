@@ -105,14 +105,13 @@ namespace HockeyPool
             DateTimePicker dtp = sender as DateTimePicker;
             await UpdateDate(dtp);
 
-#if RELEASE
             if (dtp.Value < DateTime.Today)
             {
                 cmd1Dollar.Enabled = false;
                 cmd2Dollar.Enabled = false;
                 cmd5Dollar.Enabled = false;
             }
-#endif
+
         }
 
         /// <summary>
