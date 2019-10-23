@@ -387,7 +387,7 @@ namespace HockeyPool
             this.tblUsersTableAdapter.Fill(this.hockeyPoolDataSet.tblUsers);
 
         }
-
+        // TODO finish this
         private bool HasWinner(HockeyPoolGame g)
         {
             List<BettingSquares> squares = new List<BettingSquares>();
@@ -404,6 +404,17 @@ namespace HockeyPool
             return false;
         }
 
-        
+        private void dataGridBets_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            foreach (DataGridViewColumn column in dataGridBets.Columns)
+            {
+                if (column.HeaderText.Equals("HomeScore"))
+                    column.HeaderText = "Home";
+                else if (column.HeaderText.Equals("AwayScore"))
+                    column.HeaderText = "Away";
+
+                column.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            }
+        }
     }
 }

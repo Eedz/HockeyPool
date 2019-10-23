@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.cmd1Dollar = new System.Windows.Forms.Button();
             this.cmd2Dollar = new System.Windows.Forms.Button();
             this.cmd5Dollar = new System.Windows.Forms.Button();
@@ -60,7 +60,7 @@
             // 
             // cmd1Dollar
             // 
-            this.cmd1Dollar.Location = new System.Drawing.Point(316, 131);
+            this.cmd1Dollar.Location = new System.Drawing.Point(315, 131);
             this.cmd1Dollar.Name = "cmd1Dollar";
             this.cmd1Dollar.Size = new System.Drawing.Size(100, 30);
             this.cmd1Dollar.TabIndex = 7;
@@ -70,7 +70,7 @@
             // 
             // cmd2Dollar
             // 
-            this.cmd2Dollar.Location = new System.Drawing.Point(316, 168);
+            this.cmd2Dollar.Location = new System.Drawing.Point(315, 168);
             this.cmd2Dollar.Name = "cmd2Dollar";
             this.cmd2Dollar.Size = new System.Drawing.Size(100, 30);
             this.cmd2Dollar.TabIndex = 9;
@@ -80,7 +80,7 @@
             // 
             // cmd5Dollar
             // 
-            this.cmd5Dollar.Location = new System.Drawing.Point(316, 204);
+            this.cmd5Dollar.Location = new System.Drawing.Point(315, 204);
             this.cmd5Dollar.Name = "cmd5Dollar";
             this.cmd5Dollar.Size = new System.Drawing.Size(100, 30);
             this.cmd5Dollar.TabIndex = 10;
@@ -97,7 +97,7 @@
             this.dataGridSchedule.Name = "dataGridSchedule";
             this.dataGridSchedule.ReadOnly = true;
             this.dataGridSchedule.RowHeadersVisible = false;
-            this.dataGridSchedule.Size = new System.Drawing.Size(249, 177);
+            this.dataGridSchedule.Size = new System.Drawing.Size(248, 78);
             this.dataGridSchedule.TabIndex = 11;
             this.dataGridSchedule.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dataGridSchedule_DataBindingComplete);
             // 
@@ -115,7 +115,7 @@
             // 
             this.panel1.Controls.Add(this.tblUsersDataGridView);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(465, 91);
+            this.panel1.Location = new System.Drawing.Point(464, 91);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(270, 177);
             this.panel1.TabIndex = 13;
@@ -147,9 +147,9 @@
             // dataGridViewTextBoxColumn3
             // 
             this.dataGridViewTextBoxColumn3.DataPropertyName = "balance";
-            dataGridViewCellStyle2.Format = "C2";
-            dataGridViewCellStyle2.NullValue = null;
-            this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Format = "C2";
+            dataGridViewCellStyle4.NullValue = null;
+            this.dataGridViewTextBoxColumn3.DefaultCellStyle = dataGridViewCellStyle4;
             this.dataGridViewTextBoxColumn3.HeaderText = "Balance";
             this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
             this.dataGridViewTextBoxColumn3.ReadOnly = true;
@@ -202,7 +202,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(273, 108);
+            this.label3.Location = new System.Drawing.Point(272, 108);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(186, 20);
             this.label3.TabIndex = 16;
@@ -223,16 +223,17 @@
             this.dataGridBets.AllowUserToAddRows = false;
             this.dataGridBets.AllowUserToDeleteRows = false;
             this.dataGridBets.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridBets.Location = new System.Drawing.Point(18, 286);
+            this.dataGridBets.Location = new System.Drawing.Point(19, 175);
             this.dataGridBets.Name = "dataGridBets";
             this.dataGridBets.ReadOnly = true;
             this.dataGridBets.RowHeadersVisible = false;
-            this.dataGridBets.Size = new System.Drawing.Size(248, 150);
+            this.dataGridBets.Size = new System.Drawing.Size(247, 410);
             this.dataGridBets.TabIndex = 18;
+            this.dataGridBets.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dataGridBets_DataBindingComplete);
             // 
             // cmdAddMoney
             // 
-            this.cmdAddMoney.Location = new System.Drawing.Point(741, 124);
+            this.cmdAddMoney.Location = new System.Drawing.Point(740, 124);
             this.cmdAddMoney.Name = "cmdAddMoney";
             this.cmdAddMoney.Size = new System.Drawing.Size(75, 23);
             this.cmdAddMoney.TabIndex = 19;
