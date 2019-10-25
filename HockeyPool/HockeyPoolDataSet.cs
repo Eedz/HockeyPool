@@ -1,1 +1,7 @@
-﻿
+﻿namespace HockeyPool
+{
+}
+
+namespace HockeyPool
+{
+}

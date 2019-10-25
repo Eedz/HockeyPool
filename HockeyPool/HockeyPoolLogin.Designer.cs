@@ -110,7 +110,7 @@
             this.ClientSize = new System.Drawing.Size(282, 118);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "HockeyPoolLogin";
-            this.Text = "HockeyPoolLogin";
+            this.Text = "Login";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.HockeyPoolLogin_FormClosed);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();

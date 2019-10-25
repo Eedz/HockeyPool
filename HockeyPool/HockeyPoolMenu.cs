@@ -19,6 +19,7 @@ namespace HockeyPool
         List<BetLine> todayBets;
         Person currentUser; // get user from login form
         List<Person> AllUsers;
+
         public HockeyPoolMenu()
         {
             InitializeComponent();
@@ -36,14 +37,12 @@ namespace HockeyPool
             AllUsers = new List<Person>();
 
             currentUser = DBUtilities.GetUser(user);
-            
         }
-
-        
 
         private async void HockeyPoolMenu_Load(object sender, EventArgs e)
         {
-                       
+            UpdatePool();
+            UpdateLeaderboard();
 
             // get today's games
             await LoadGames(DateTime.Today.ToString("yyyy-MM-dd"));
@@ -57,6 +56,7 @@ namespace HockeyPool
         private async void cmd1Dollar_Click(object sender, EventArgs e)
         {
             EnterBet(1);
+            UpdatePool();
             UpdateLeaderboard();
 
             await UpdateDate(dtpSchedule);
@@ -66,6 +66,8 @@ namespace HockeyPool
         {
             for (int i = 0; i < 2; i++)
                 EnterBet(1);
+
+            UpdatePool();
             UpdateLeaderboard();
 
             await UpdateDate(dtpSchedule);
@@ -75,6 +77,8 @@ namespace HockeyPool
         {
             for (int i = 0; i < 5; i++)
                 EnterBet(1);
+
+            UpdatePool();
             UpdateLeaderboard();
 
             await UpdateDate(dtpSchedule);
@@ -95,7 +99,17 @@ namespace HockeyPool
 
             UpdateLeaderboard();
         }
+        
 
+        private void cmdPreviousDay_Click(object sender, EventArgs e)
+        {
+            this.dtpSchedule.Value = this.dtpSchedule.Value.AddDays(-1);
+        }
+
+        private void cmdNextDay_Click(object sender, EventArgs e)
+        {
+            this.dtpSchedule.Value = this.dtpSchedule.Value.AddDays(1);
+        }
         #endregion
 
         #region Grid Events
@@ -146,6 +160,19 @@ namespace HockeyPool
             dataGridSchedule.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
 
+        private void dataGridBets_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            foreach (DataGridViewColumn column in dataGridBets.Columns)
+            {
+                if (column.HeaderText.Equals("HomeScore"))
+                    column.HeaderText = "Home";
+                else if (column.HeaderText.Equals("AwayScore"))
+                    column.HeaderText = "Away";
+
+                column.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            }
+        }
+
         #endregion
 
         #region Update Form 
@@ -153,13 +180,18 @@ namespace HockeyPool
         {
             await LoadGames(d.Value.ToString("yyyy-MM-dd"));
             LoadBets(d.Value.ToString("yyyy-MM-dd"));
-
         }
 
         private void UpdateLeaderboard()
         {
             tblUsersTableAdapter.ClearBeforeFill = true;
             tblUsersTableAdapter.Fill(hockeyPoolDataSet.tblUsers);
+        }
+
+        private void UpdatePool()
+        {
+            tblBetPoolTableAdapter.ClearBeforeFill = true;
+            tblBetPoolTableAdapter.Fill(hockeyPoolDataSet.tblBetPool);
         }
         #endregion
 
@@ -210,8 +242,6 @@ namespace HockeyPool
                 BettingSquares bs = DBUtilities.GetGameBets(g.GameID);
 
                 squares.Add(bs);
-                
-
             }
             
             foreach (BettingSquares bs in squares)
@@ -231,15 +261,11 @@ namespace HockeyPool
                             todayBets.Add(b);
                         }
                     }
-                    
                 }
-                
-
             }
 
             dataGridBets.DataSource = null;
             dataGridBets.DataSource = todayBets;
-           
         }
 
         private async Task<NHLAPI> LoadTeams()
@@ -266,8 +292,6 @@ namespace HockeyPool
             return p;
         }
 
-
-
         /// <summary>
         /// Enter a bet by assigning a random score to the current user.
         /// </summary>
@@ -275,7 +299,6 @@ namespace HockeyPool
         /// <returns></returns>
         private int EnterBet(int amount)
         {
-            
             if (dataGridSchedule.CurrentRow == null)
                 return 1;
 
@@ -289,7 +312,6 @@ namespace HockeyPool
                 MessageBox.Show("No more bets available for this game.");
                 return 1;
             }
-
 
             int home, away;
             do
@@ -321,10 +343,6 @@ namespace HockeyPool
             }
         }
 
-        
-
-        
-
         /// <summary>
         /// Enter a bet for a specific winning team.
         /// </summary>
@@ -343,27 +361,13 @@ namespace HockeyPool
             frmBet.Show();
         }
 
-        
-
-        
-
-     
         private async void ResolveBets()
         {
             // get unresolved bets
             DataTable bets;
        
             int homeScore, awayScore;
-
-            List<HockeyPoolGame> unresolvedGames;
-            unresolvedGames = DBUtilities.GetUnresolvedGames();
             
-            foreach (HockeyPoolGame g in unresolvedGames)
-            {
-                if (!HasWinner(g))
-                    DBUtilities.AddToPool(g);
-            }
-
             bets = tblBetsTableAdapter.GetDataByUnresolved();
             
             foreach (DataRow r in bets.Rows)
@@ -377,43 +381,8 @@ namespace HockeyPool
                 if (homeScore == 0 && awayScore == 0)
                     continue;
 
-                
                 DBUtilities.ResolveBet((int)r["ID"], homeScore, awayScore);
 
-            }
-
-
-
-            this.tblUsersTableAdapter.Fill(this.hockeyPoolDataSet.tblUsers);
-
-        }
-        // TODO finish this
-        private bool HasWinner(HockeyPoolGame g)
-        {
-            List<BettingSquares> squares = new List<BettingSquares>();
-          
-            BettingSquares bs = DBUtilities.GetGameBets(g.GameID);
-
-            squares.Add(bs);
-
-            foreach (BettingSquares s in squares)
-            {
-
-            }
-
-            return false;
-        }
-
-        private void dataGridBets_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
-        {
-            foreach (DataGridViewColumn column in dataGridBets.Columns)
-            {
-                if (column.HeaderText.Equals("HomeScore"))
-                    column.HeaderText = "Home";
-                else if (column.HeaderText.Equals("AwayScore"))
-                    column.HeaderText = "Away";
-
-                column.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             }
         }
     }
