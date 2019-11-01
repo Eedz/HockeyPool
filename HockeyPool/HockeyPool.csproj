@@ -135,7 +135,6 @@
     </None>
     <None Include="HockeyPoolDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>HockeyPoolDataSet.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
     <None Include="HockeyPoolDataSet.xss">

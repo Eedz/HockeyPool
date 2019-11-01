@@ -30,7 +30,7 @@ namespace HockeyPool
         public HockeyPoolMenu(string user)
         {
             InitializeComponent();
-            ResolveBets();
+            
             
             todayGames = new List<HockeyPoolGame>();
             todayBets = new List<BetLine>();
@@ -41,6 +41,7 @@ namespace HockeyPool
 
         private async void HockeyPoolMenu_Load(object sender, EventArgs e)
         {
+            await ResolveBets();
             UpdatePool();
             UpdateLeaderboard();
 
@@ -52,7 +53,46 @@ namespace HockeyPool
             cmd1Dollar.Focus();
         }
 
+        private void PaintAwayTeamLabel()
+        {
+            Graphics g;
+            g = this.CreateGraphics();
+
+            g.Clear(this.BackColor); // reset drawing surface
+
+            if (todayGames.Count == 0) return;
+            string myText = todayGames[0].AwayTeam;
+
+            FontFamily fontFamily = new FontFamily("Microsoft Sans Serif");
+            Font font = new Font(fontFamily, 15, FontStyle.Regular, GraphicsUnit.Point);
+            PointF pointF = new PointF(gridSquares.Left - 30, gridSquares.Top);
+            StringFormat stringFormat = new StringFormat();
+            SolidBrush solidBrush = new SolidBrush(Color.FromArgb(255, 0, 0, 0));
+
+            stringFormat.FormatFlags = StringFormatFlags.DirectionVertical;
+
+            g.DrawString(myText, font, solidBrush, pointF, stringFormat);
+        }
+
         #region Button Events
+
+        private void changeUserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            HockeyPoolLogin login = new HockeyPoolLogin();
+            switch (login.ShowDialog())
+            {
+                case DialogResult.OK:
+                    login.Close();
+                    currentUser = DBUtilities.GetUser(login.Username);
+                    break;
+                case DialogResult.Cancel:
+                    break;
+                case DialogResult.No:
+                    MessageBox.Show("Unsuccessful login attempt.");
+                    break;
+            }
+        }
+
         private async void cmd1Dollar_Click(object sender, EventArgs e)
         {
             EnterBet(1);
@@ -125,6 +165,12 @@ namespace HockeyPool
                 cmd2Dollar.Enabled = false;
                 cmd5Dollar.Enabled = false;
             }
+            else
+            {
+                cmd1Dollar.Enabled = true;
+                cmd2Dollar.Enabled = true;
+                cmd5Dollar.Enabled = true;
+            }
 
         }
 
@@ -143,34 +189,69 @@ namespace HockeyPool
                 switch (col)
                 {
                     case "HomeTeam":
-                        dataGridSchedule.Columns[i].Name = "Home Team";
+                        dataGridSchedule.Columns[i].HeaderText = "Home";
+                        dataGridSchedule.Columns[i].DisplayIndex = 0;
                         break;
                     case "AwayTeam":
-                        dataGridSchedule.Columns[i].Name = "Away Team";
+                        dataGridSchedule.Columns[i].HeaderText = "Away";
+                        dataGridSchedule.Columns[i].DisplayIndex = 2;
+                        break;
+                    case "HomeScore":
+                        if (dtpSchedule.Value >= DateTime.Today)
+                            toRemove.Add(col);
+                        else
+                        {
+                            dataGridSchedule.Columns[i].HeaderText = "S";
+                            dataGridSchedule.Columns[i].DisplayIndex = 1;
+                        }
+
+                        break;
+                    case "AwayScore":
+                        if (dtpSchedule.Value >= DateTime.Today)
+                            toRemove.Add(col);
+                        else
+                        {
+                            dataGridSchedule.Columns[i].HeaderText = "S";
+                            dataGridSchedule.Columns[i].DisplayIndex = 3;
+                        }
+
                         break;
                     default:
                         toRemove.Add(col);
                         break;
                 }
             }
+
             foreach (string s in toRemove)
             {
                 dataGridSchedule.Columns.Remove(s);
             }
-            dataGridSchedule.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-        }
 
-        private void dataGridBets_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
-        {
-            foreach (DataGridViewColumn column in dataGridBets.Columns)
+            for (int i = 0; i < dataGridSchedule.ColumnCount; i++)
             {
-                if (column.HeaderText.Equals("HomeScore"))
-                    column.HeaderText = "Home";
-                else if (column.HeaderText.Equals("AwayScore"))
-                    column.HeaderText = "Away";
+                col = dataGridSchedule.Columns[i].Name;
+                switch (col)
+                {
+                    case "HomeTeam":
+                        dataGridSchedule.Columns[i].DisplayIndex = 0;
+                        break;
+                    case "AwayTeam":
+                        if (dtpSchedule.Value >= DateTime.Today)
+                            dataGridSchedule.Columns[i].DisplayIndex = 1;
+                        else
+                            dataGridSchedule.Columns[i].DisplayIndex = 2;
 
-                column.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                        break;
+                    case "HomeScore":
+                        dataGridSchedule.Columns[i].DisplayIndex = 1;
+                        break;
+                    case "AwayScore":
+                        dataGridSchedule.Columns[i].DisplayIndex = 3;
+                        break;
+                }
             }
+
+            dataGridSchedule.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
 
         #endregion
@@ -184,6 +265,7 @@ namespace HockeyPool
 
         private void UpdateLeaderboard()
         {
+            tblUsersBindingSource.Sort = "balance";
             tblUsersTableAdapter.ClearBeforeFill = true;
             tblUsersTableAdapter.Fill(hockeyPoolDataSet.tblUsers);
         }
@@ -195,6 +277,7 @@ namespace HockeyPool
         }
         #endregion
 
+        #region Methods
         private async Task LoadGames(string d)
         {
             p = await GetSchedule(10,d);
@@ -222,7 +305,10 @@ namespace HockeyPool
                     HomeTeam = p.dates[0].games[i].teams.home.team.name,
                     HomeTeamID = p.dates[0].games[i].teams.home.team.id,
                     AwayTeam = p.dates[0].games[i].teams.away.team.name,
-                    AwayTeamID = p.dates[0].games[i].teams.away.team.id
+                    AwayTeamID = p.dates[0].games[i].teams.away.team.id,
+                    HomeScore = p.dates[0].games[i].teams.home.score,
+                    AwayScore = p.dates[0].games[i].teams.away.score
+                    
                 };
                 todayGames.Add(g);
             }
@@ -232,7 +318,6 @@ namespace HockeyPool
 
         private void LoadBets(string d)
         {
-
             todayBets.Clear();
 
             List<BettingSquares> squares = new List<BettingSquares>();
@@ -242,8 +327,9 @@ namespace HockeyPool
                 BettingSquares bs = DBUtilities.GetGameBets(g.GameID);
 
                 squares.Add(bs);
+                txtHomeTeamLabel.Text = todayGames[0].HomeTeam;
             }
-            
+
             foreach (BettingSquares bs in squares)
             {
 
@@ -264,8 +350,40 @@ namespace HockeyPool
                 }
             }
 
-            dataGridBets.DataSource = null;
-            dataGridBets.DataSource = todayBets;
+            DataTable grid = new DataTable();
+            // create table with 10 columns
+            for (int i = 0; i < 10; i++)
+                grid.Columns.Add(i.ToString());
+
+            // fill with 10 empty rows
+            for (int i = 0; i <10; i++)
+            {
+                DataRow r = grid.NewRow();
+                for (int c = 0; c < 10; c++)                  
+                    r[c] = "";
+
+                grid.Rows.Add(r);                
+            }
+            
+            // fill in bet names
+            foreach (BetLine b in todayBets)
+                grid.Rows[b.AwayScore][b.HomeScore] = b.Name;
+
+            // format data grid view
+            gridSquares.DataSource = grid;
+            // add row header
+            foreach (DataGridViewRow r in gridSquares.Rows)
+            {
+                r.HeaderCell.Value = r.Index.ToString();
+            }
+            // format column headers
+            for (int i = 0; i < 10; i++)
+            {
+                gridSquares.Columns[i].HeaderCell.Style.Alignment = DataGridViewContentAlignment.TopCenter;
+                gridSquares.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
+            // add away team label
+            PaintAwayTeamLabel();
         }
 
         private async Task<NHLAPI> LoadTeams()
@@ -361,7 +479,7 @@ namespace HockeyPool
             frmBet.Show();
         }
 
-        private async void ResolveBets()
+        private async Task ResolveBets()
         {
             // get unresolved bets
             DataTable bets;
@@ -384,6 +502,9 @@ namespace HockeyPool
                 DBUtilities.ResolveBet((int)r["ID"], homeScore, awayScore);
 
             }
+            return;
         }
+
+        #endregion
     }
 }
