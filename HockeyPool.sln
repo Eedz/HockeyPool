@@ -5,16 +5,27 @@ VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HockeyPool", "HockeyPool\HockeyPool.csproj", "{EA01814B-45C5-4A99-AD0D-C259747D64BB}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHLStats", "..\nhlstats-master\NHLStats\NHLStats\NHLStats.csproj", "{C68EE056-9DEB-4246-9E76-223765202A87}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Packaged|Any CPU = Packaged|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{EA01814B-45C5-4A99-AD0D-C259747D64BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EA01814B-45C5-4A99-AD0D-C259747D64BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA01814B-45C5-4A99-AD0D-C259747D64BB}.Packaged|Any CPU.ActiveCfg = Release|Any CPU
+		{EA01814B-45C5-4A99-AD0D-C259747D64BB}.Packaged|Any CPU.Build.0 = Release|Any CPU
 		{EA01814B-45C5-4A99-AD0D-C259747D64BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA01814B-45C5-4A99-AD0D-C259747D64BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C68EE056-9DEB-4246-9E76-223765202A87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C68EE056-9DEB-4246-9E76-223765202A87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C68EE056-9DEB-4246-9E76-223765202A87}.Packaged|Any CPU.ActiveCfg = Packaged|Any CPU
+		{C68EE056-9DEB-4246-9E76-223765202A87}.Packaged|Any CPU.Build.0 = Packaged|Any CPU
+		{C68EE056-9DEB-4246-9E76-223765202A87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C68EE056-9DEB-4246-9E76-223765202A87}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

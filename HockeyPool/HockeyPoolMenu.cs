@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using NHLStats;
 
 namespace HockeyPool
 {
@@ -487,7 +487,7 @@ namespace HockeyPool
             int homeScore, awayScore;
             
             bets = tblBetsTableAdapter.GetDataByUnresolved();
-            
+
             foreach (DataRow r in bets.Rows)
             {
                 p = await hapi.GetGameResult(r["gameID"].ToString());
@@ -495,11 +495,14 @@ namespace HockeyPool
                 homeScore = p.teams.home.teamStats.teamSkaterStats.goals;
                 awayScore = p.teams.away.teamStats.teamSkaterStats.goals;
 
-                // first check if there is any score, if not, the game has not been played yet
-                if (homeScore == 0 && awayScore == 0)
-                    continue;
+                NHLStats.Game g = new NHLStats.Game((string)r["gameID"]);
+                if (g.abstractGameState == "Final") { 
+                    // first check if there is any score, if not, the game has not been played yet
+                    if (homeScore == 0 && awayScore == 0)
+                        continue;
 
-                DBUtilities.ResolveBet((int)r["ID"], homeScore, awayScore);
+                    DBUtilities.ResolveBet((int)r["ID"], homeScore, awayScore);
+                }   
 
             }
             return;

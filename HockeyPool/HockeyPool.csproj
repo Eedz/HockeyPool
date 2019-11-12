@@ -166,5 +166,11 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\nhlstats-master\NHLStats\NHLStats\NHLStats.csproj">
+      <Project>{c68ee056-9deb-4246-9e76-223765202a87}</Project>
+      <Name>NHLStats</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
