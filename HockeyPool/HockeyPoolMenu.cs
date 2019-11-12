@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using NHLStats;
 
 namespace HockeyPool
 {
@@ -17,8 +16,8 @@ namespace HockeyPool
         HockeyAPI hapi = new HockeyAPI();
         List<HockeyPoolGame> todayGames;
         List<BetLine> todayBets;
-        Person currentUser; // get user from login form
-        List<Person> AllUsers;
+        BetPerson currentUser; // get user from login form
+        List<BetPerson> AllUsers;
 
         public HockeyPoolMenu()
         {
@@ -34,7 +33,7 @@ namespace HockeyPool
             
             todayGames = new List<HockeyPoolGame>();
             todayBets = new List<BetLine>();
-            AllUsers = new List<Person>();
+            AllUsers = new List<BetPerson>();
 
             currentUser = DBUtilities.GetUser(user);
         }
@@ -492,11 +491,13 @@ namespace HockeyPool
             {
                 p = await hapi.GetGameResult(r["gameID"].ToString());
 
-                homeScore = p.teams.home.teamStats.teamSkaterStats.goals;
-                awayScore = p.teams.away.teamStats.teamSkaterStats.goals;
-
                 NHLStats.Game g = new NHLStats.Game((string)r["gameID"]);
-                if (g.abstractGameState == "Final") { 
+
+                if (g.abstractGameState == "Final")
+                {
+                    homeScore = p.teams.home.teamStats.teamSkaterStats.goals;
+                    awayScore = p.teams.away.teamStats.teamSkaterStats.goals;
+
                     // first check if there is any score, if not, the game has not been played yet
                     if (homeScore == 0 && awayScore == 0)
                         continue;

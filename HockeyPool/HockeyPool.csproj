@@ -11,6 +11,7 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -23,7 +24,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -47,8 +47,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -69,7 +69,14 @@
   <ItemGroup>
     <Compile Include="BetLine.cs" />
     <Compile Include="BettingSquares.cs" />
+    <Compile Include="NHLStats\BoxScore.cs" />
+    <Compile Include="NHLStats\Conference.cs" />
+    <Compile Include="NHLStats\DataAccessLayer.cs" />
     <Compile Include="DBUtilities.cs" />
+    <Compile Include="NHLStats\Division.cs" />
+    <Compile Include="NHLStats\Game.cs" />
+    <Compile Include="NHLStats\GameContent.cs" />
+    <Compile Include="NHLStats\GameEvent.cs" />
     <Compile Include="HockeyPoolDataSet.cs">
       <DependentUpon>HockeyPoolDataSet.xsd</DependentUpon>
     </Compile>
@@ -91,6 +98,7 @@
     <Compile Include="InputBox.designer.cs">
       <DependentUpon>InputBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="NHLStats\League.cs" />
     <Compile Include="NHLAPI.cs" />
     <Compile Include="HockeyAPI.cs" />
     <Compile Include="EnterBet.cs">
@@ -105,10 +113,21 @@
     <Compile Include="HockeyPoolMenu.Designer.cs">
       <DependentUpon>HockeyPoolMenu.cs</DependentUpon>
     </Compile>
-    <Compile Include="Person.cs" />
+    <Compile Include="BetPerson.cs" />
+    <Compile Include="NHLStats\NHLAPIServiceURLs.cs" />
+    <Compile Include="NHLStats\Period.cs" />
+    <Compile Include="NHLStats\Person.cs" />
+    <Compile Include="NHLStats\Player.cs" />
+    <Compile Include="NHLStats\PlayerGameStats.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="NHLStats\Schedule.cs" />
+    <Compile Include="NHLStats\Team.cs" />
+    <Compile Include="NHLStats\TeamGameStats.cs" />
+    <Compile Include="NHLStats\TeamRecord.cs" />
     <Compile Include="UserBet.cs" />
+    <Compile Include="NHLStats\Utilities.cs" />
+    <Compile Include="NHLStats\Venue.cs" />
     <EmbeddedResource Include="EnterBet.resx">
       <DependentUpon>EnterBet.cs</DependentUpon>
     </EmbeddedResource>
@@ -165,12 +184,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\nhlstats-master\NHLStats\NHLStats\NHLStats.csproj">
-      <Project>{c68ee056-9deb-4246-9e76-223765202a87}</Project>
-      <Name>NHLStats</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

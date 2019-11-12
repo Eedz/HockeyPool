@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 
 namespace HockeyPool
 {
-    public class Person
+    public class BetPerson
     {
         int id;
         string name;
         double balance;
         
-        public Person()
+        public BetPerson()
         {
             name = "";
             balance = 0;
         
         }
 
-        public Person (String n, double b)
+        public BetPerson (String n, double b)
         {
             name = n;
             balance = b;

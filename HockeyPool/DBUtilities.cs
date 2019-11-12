@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Data;
+
 namespace HockeyPool
 {
      
@@ -131,9 +132,9 @@ namespace HockeyPool
             return result;
         }
 
-        public static Person GetUser(string username)
+        public static BetPerson GetUser(string username)
         {
-            Person result = new Person();
+            BetPerson result = new BetPerson();
             using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["HockeyPoolConnectionString"].ConnectionString))
             {
                 conn.Open();
@@ -212,7 +213,7 @@ namespace HockeyPool
             
         }
 
-        public static void AddToBalance(Person p, int amount)
+        public static void AddToBalance(BetPerson p, int amount)
         {
 
             using (SqlDataAdapter sql = new SqlDataAdapter())
