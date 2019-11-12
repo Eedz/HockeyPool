@@ -502,7 +502,7 @@ namespace HockeyPool
                         continue;
 
                     DBUtilities.ResolveBet((int)r["ID"], homeScore, awayScore);
-                }   
+                }    
 
             }
             return;
