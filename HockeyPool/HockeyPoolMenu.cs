@@ -18,6 +18,7 @@ namespace HockeyPool
         List<BetLine> todayBets;
         BetPerson currentUser; // get user from login form
         List<BetPerson> AllUsers;
+        int squaresSize = 5;
 
         public HockeyPoolMenu()
         {
@@ -332,9 +333,9 @@ namespace HockeyPool
             foreach (BettingSquares bs in squares)
             {
 
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i <= squaresSize; i++)
                 {
-                    for (int j = 0;j < 10; j++)
+                    for (int j = 0;j <= squaresSize; j++)
                     {
                         if (bs.Squares[i,j] != null)
                         {
@@ -351,14 +352,14 @@ namespace HockeyPool
 
             DataTable grid = new DataTable();
             // create table with 10 columns
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i <= squaresSize; i++)
                 grid.Columns.Add(i.ToString());
 
             // fill with 10 empty rows
-            for (int i = 0; i <10; i++)
+            for (int i = 0; i <= squaresSize; i++)
             {
                 DataRow r = grid.NewRow();
-                for (int c = 0; c < 10; c++)                  
+                for (int c = 0; c <= squaresSize; c++)                  
                     r[c] = "";
 
                 grid.Rows.Add(r);                
@@ -376,7 +377,7 @@ namespace HockeyPool
                 r.HeaderCell.Value = r.Index.ToString();
             }
             // format column headers
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i <= squaresSize; i++)
             {
                 gridSquares.Columns[i].HeaderCell.Style.Alignment = DataGridViewContentAlignment.TopCenter;
                 gridSquares.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -451,12 +452,12 @@ namespace HockeyPool
         {
             Random r = new Random();
 
-            home = r.Next(0, 9);
-            away = r.Next(0, 9);
+            home = r.Next(0, squaresSize);
+            away = r.Next(0, squaresSize);
 
             while (home == away)
             {
-                away = r.Next(0, 9);
+                away = r.Next(0, squaresSize);
             }
         }
 
