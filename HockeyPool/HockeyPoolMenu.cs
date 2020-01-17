@@ -18,7 +18,7 @@ namespace HockeyPool
         List<BetLine> todayBets;
         BetPerson currentUser; // get user from login form
         List<BetPerson> AllUsers;
-        int squaresSize = 5;
+        int squaresSize = 6;
 
         public HockeyPoolMenu()
         {
@@ -37,6 +37,8 @@ namespace HockeyPool
             AllUsers = new List<BetPerson>();
 
             currentUser = DBUtilities.GetUser(user);
+
+            lblUser.Text = "Current User: " + currentUser.Name;
         }
 
         private async void HockeyPoolMenu_Load(object sender, EventArgs e)
@@ -84,6 +86,7 @@ namespace HockeyPool
                 case DialogResult.OK:
                     login.Close();
                     currentUser = DBUtilities.GetUser(login.Username);
+                    lblUser.Text = "Current User: " + currentUser.Name;
                     break;
                 case DialogResult.Cancel:
                     break;
@@ -352,14 +355,14 @@ namespace HockeyPool
 
             DataTable grid = new DataTable();
             // create table with 10 columns
-            for (int i = 0; i <= squaresSize; i++)
+            for (int i = 0; i < squaresSize; i++)
                 grid.Columns.Add(i.ToString());
 
             // fill with 10 empty rows
-            for (int i = 0; i <= squaresSize; i++)
+            for (int i = 0; i < squaresSize; i++)
             {
                 DataRow r = grid.NewRow();
-                for (int c = 0; c <= squaresSize; c++)                  
+                for (int c = 0; c < squaresSize; c++)                  
                     r[c] = "";
 
                 grid.Rows.Add(r);                
@@ -377,7 +380,7 @@ namespace HockeyPool
                 r.HeaderCell.Value = r.Index.ToString();
             }
             // format column headers
-            for (int i = 0; i <= squaresSize; i++)
+            for (int i = 0; i < squaresSize; i++)
             {
                 gridSquares.Columns[i].HeaderCell.Style.Alignment = DataGridViewContentAlignment.TopCenter;
                 gridSquares.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -492,7 +495,7 @@ namespace HockeyPool
             {
                 p = await hapi.GetGameResult(r["gameID"].ToString());
 
-                NHLStats.Game g = new NHLStats.Game((string)r["gameID"]);
+                NHLStats.Game g = new NHLStats.Game(Convert.ToString(r["gameID"]), 0);
 
                 if (g.abstractGameState == "Final")
                 {
