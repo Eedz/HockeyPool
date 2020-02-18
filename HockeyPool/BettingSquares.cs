@@ -37,15 +37,27 @@ namespace HockeyPool
             return 0;
         }
 
+        /// <summary>
+        /// Checks if the square at the specified co-ordinates is null.
+        /// </summary>
+        /// <param name="home"></param>
+        /// <param name="away"></param>
+        /// <returns>True if square at [home,away] is null.</returns>
         public bool IsSquareAvailable(int home, int away)
         {
-            return Squares[home, away] == null;
+            try
+            {
+                return Squares[home, away] == null && home != away;
+            }catch (IndexOutOfRangeException)
+            {
+                return false;
+            }
         }
 
         /// <summary>
         /// Check if there are any empty squares.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>True if there is at least one null square</returns>
         public bool SquaresFull()
         {
             

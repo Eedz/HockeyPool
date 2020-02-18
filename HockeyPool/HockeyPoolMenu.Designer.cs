@@ -77,7 +77,7 @@
             // 
             betPoolLabel.AutoSize = true;
             betPoolLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            betPoolLabel.Location = new System.Drawing.Point(220, 55);
+            betPoolLabel.Location = new System.Drawing.Point(229, 55);
             betPoolLabel.Name = "betPoolLabel";
             betPoolLabel.Size = new System.Drawing.Size(69, 18);
             betPoolLabel.TabIndex = 21;
@@ -168,7 +168,7 @@
             this.tblUsersDataGridView.Name = "tblUsersDataGridView";
             this.tblUsersDataGridView.ReadOnly = true;
             this.tblUsersDataGridView.RowHeadersVisible = false;
-            this.tblUsersDataGridView.Size = new System.Drawing.Size(282, 142);
+            this.tblUsersDataGridView.Size = new System.Drawing.Size(282, 147);
             this.tblUsersDataGridView.TabIndex = 16;
             // 
             // dataGridViewTextBoxColumn2
